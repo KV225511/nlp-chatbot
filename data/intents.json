@@ -1,0 +1,657 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": [
+        "Hi", "Hello", "Hey", "Good morning", "Good evening",
+        "What's up", "How are you", "Is anyone there", "Yo",
+        "Greetings", "Hi there", "Hello there", "Howdy",
+        "Hey bot", "Good day"
+      ],
+      "responses": [
+        "Hello, space explorer! 🚀 I'm CosmosBot, your guide to the universe. What cosmic topic are you curious about?",
+        "Greetings, Earthling! 🌍 Ready to explore the cosmos? Ask me about planets, stars, black holes, or anything in space!",
+        "Hey there! ✨ Welcome to CosmosBot. The universe is vast — what would you like to discover today?",
+        "Hi! I'm CosmosBot, your personal astronomy assistant. From black holes to exoplanets, I've got the cosmos covered! What interests you?"
+      ],
+      "suggestions": ["Tell me about black holes", "Solar system facts", "Latest Mars missions"]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": [
+        "Bye", "See you later", "Goodbye", "Take care",
+        "I'm leaving", "Have a good day", "See ya", "Gotta go",
+        "Catch you later", "Peace out", "Bye bye", "Until next time"
+      ],
+      "responses": [
+        "Goodbye, explorer! 🌟 Remember — the universe is always out there waiting for you. Clear skies!",
+        "See you later! 🚀 Keep looking up at the stars. Until next time!",
+        "Farewell, space traveler! May your curiosity about the cosmos never fade. Ad astra! ✨",
+        "Bye! 🌌 Remember, we're all made of star stuff. Come back anytime you want to explore!"
+      ],
+      "suggestions": []
+    },
+    {
+      "tag": "thanks",
+      "patterns": [
+        "Thanks", "Thank you", "That's helpful", "Thanks a lot",
+        "Thank you so much", "Much appreciated", "Awesome thanks",
+        "I appreciate it", "Thanks for the info", "Great, thanks",
+        "Cool, thank you", "That was useful"
+      ],
+      "responses": [
+        "You're welcome! 🌟 Got more cosmic questions? I'm all ears!",
+        "Glad I could help! The universe is full of wonders — ask me anything else!",
+        "Anytime, explorer! 🚀 There's always more to discover in the cosmos.",
+        "Happy to help! ✨ Keep exploring and stay curious!"
+      ],
+      "suggestions": ["Tell me something cool about space", "What's the latest in astronomy", "Show me a fun fact"]
+    },
+    {
+      "tag": "about_bot",
+      "patterns": [
+        "What can you do", "Who are you", "What is this bot",
+        "Tell me about yourself", "What are your capabilities",
+        "How can you help me", "What do you know about",
+        "What topics do you cover", "Are you a chatbot",
+        "What is CosmosBot", "Help me understand what you do"
+      ],
+      "responses": [
+        "I'm CosmosBot 🚀 — a voice-enabled AI assistant specialized in space and astronomy! I can tell you about planets, stars, black holes, space missions, rocket science, and much more. You can type or use your voice to ask me anything about the cosmos!",
+        "I'm your personal space guide! 🌌 I use deep learning to understand your questions about astronomy, space exploration, astrophysics, and the universe. Try asking me about black holes, Mars missions, or how stars are born!",
+        "CosmosBot here! ✨ I'm an AI chatbot powered by deep learning, designed to answer all your space and astronomy questions. I support voice input, multiple languages, and can even help you relax with a breathing exercise after a mind-blowing cosmic fact!"
+      ],
+      "suggestions": ["Black holes explained", "How do rockets work", "Facts about Mars"]
+    },
+    {
+      "tag": "black_holes",
+      "patterns": [
+        "Tell me about black holes", "What is a black hole",
+        "How do black holes form", "What happens inside a black hole",
+        "Can black holes destroy Earth", "How big are black holes",
+        "What is event horizon", "What is a singularity",
+        "Explain black holes", "Are black holes dangerous",
+        "Supermassive black holes", "Black hole at center of galaxy",
+        "What is Sagittarius A", "Do black holes die"
+      ],
+      "responses": [
+        "Black holes are regions of spacetime where gravity is so intense that nothing — not even light — can escape! 🕳️ They form when massive stars (at least 20-25 times our Sun's mass) collapse at the end of their life. The boundary around a black hole is called the 'event horizon' — cross it, and there's no coming back. Our galaxy's center has a supermassive black hole called Sagittarius A*, which is about 4 million times the mass of our Sun!",
+        "A black hole is one of the most extreme objects in the universe! ⚫ When a massive star runs out of fuel, its core collapses under its own gravity into an infinitely dense point called a 'singularity.' The region around it where escape velocity exceeds the speed of light is the 'event horizon.' Fun fact: time actually slows down near a black hole due to extreme gravitational time dilation!",
+        "Black holes are cosmic vacuum cleaners — sort of! 🌀 They come in three sizes: stellar black holes (5-100 solar masses), intermediate, and supermassive (millions to billions of solar masses). The first-ever image of a black hole was captured in 2019 by the Event Horizon Telescope — it was in galaxy M87, about 55 million light-years away!"
+      ],
+      "suggestions": ["What is Sagittarius A*", "Event horizon explained", "Can anything escape a black hole"]
+    },
+    {
+      "tag": "solar_system",
+      "patterns": [
+        "Tell me about the solar system", "How many planets are there",
+        "What are the planets", "Solar system facts",
+        "How old is the solar system", "What is the biggest planet",
+        "What is the smallest planet", "Planet names in order",
+        "How was the solar system formed", "Facts about our solar system",
+        "Tell me about the planets", "How big is the solar system"
+      ],
+      "responses": [
+        "Our solar system is about 4.6 billion years old! 🌍 It has 8 planets: Mercury, Venus, Earth, Mars (rocky/inner planets), Jupiter, Saturn, Uranus, and Neptune (gas/ice giants). Jupiter is the largest — you could fit over 1,300 Earths inside it! The solar system extends far beyond Neptune to the Oort Cloud, about 2 light-years from the Sun.",
+        "The solar system is our cosmic neighborhood! ☀️ It formed from a giant cloud of gas and dust (solar nebula) about 4.6 billion years ago. Fun facts: Saturn could float in water (its density is less than water!), Venus rotates backwards, and a day on Venus is longer than its year! The whole system orbits the Milky Way's center at about 828,000 km/h.",
+        "Here's a quick tour of our solar system! 🪐 8 planets orbit our Sun: 4 rocky inner planets (Mercury, Venus, Earth, Mars) and 4 outer gas/ice giants (Jupiter, Saturn, Uranus, Neptune). Plus we have 5 recognized dwarf planets, hundreds of moons, millions of asteroids, and trillions of comets. The total diameter? About 287 billion kilometers!"
+      ],
+      "suggestions": ["Tell me about Jupiter", "Why was Pluto demoted", "How far is Neptune from the Sun"]
+    },
+    {
+      "tag": "mars_missions",
+      "patterns": [
+        "Tell me about Mars missions", "What missions went to Mars",
+        "Mars exploration", "Has anyone been to Mars",
+        "Mars rover", "Perseverance rover", "Curiosity rover",
+        "When will humans go to Mars", "SpaceX Mars mission",
+        "Is there water on Mars", "Can we live on Mars",
+        "Mars colonization", "Life on Mars", "Red planet"
+      ],
+      "responses": [
+        "Mars exploration is one of humanity's greatest adventures! 🔴 Key missions: NASA's Perseverance rover (landed 2021) is searching for ancient microbial life and collecting rock samples. Curiosity (2012) discovered Mars once had conditions suitable for life. India's Mangalyaan was the first successful Mars mission by any Asian nation! SpaceX's Starship aims to carry humans to Mars — possibly in the 2030s.",
+        "Mars has been explored by numerous missions! 🚀 The latest is NASA's Perseverance rover, which brought the Ingenuity helicopter — the first aircraft to fly on another planet! Mars has polar ice caps with water ice, ancient river valleys, and the tallest volcano in the solar system: Olympus Mons (about 72,000 feet tall — nearly 3× Mount Everest!).",
+        "The Red Planet has fascinated us for decades! 🔴 Over 50 missions have been sent to Mars, though only about half succeeded. Highlights: Viking 1 (first successful landing, 1976), Spirit & Opportunity rovers, Curiosity, and Perseverance. Water ice exists below the surface, and NASA's MOXIE experiment successfully made oxygen from Mars's CO₂ atmosphere in 2021!"
+      ],
+      "suggestions": ["What did Perseverance find", "Can humans breathe on Mars", "How long to travel to Mars"]
+    },
+    {
+      "tag": "star_formation",
+      "patterns": [
+        "How are stars formed", "How do stars form",
+        "Star formation", "What is a nebula used for",
+        "Birth of a star", "How are stars born",
+        "Stellar nursery", "What makes a star shine",
+        "Life cycle of a star", "Star life cycle",
+        "How long do stars live", "What happens when a star dies"
+      ],
+      "responses": [
+        "Stars are born in giant clouds of gas and dust called nebulae! ⭐ Here's the process: 1) A region of a nebula collapses under gravity, 2) The material heats up forming a 'protostar,' 3) When the core reaches ~15 million°C, hydrogen fusion ignites — a star is born! Our Sun will live about 10 billion years total. Massive stars live shorter lives but die spectacularly as supernovae!",
+        "Star formation is cosmic alchemy! 🌟 It begins in molecular clouds (nebulae) where gravity pulls gas and dust together. As the material compresses, it heats up. When temperatures hit ~15 million Kelvin at the core, nuclear fusion begins — hydrogen atoms fuse into helium, releasing enormous energy. A star's mass determines its life: our Sun (medium) = 10 billion years, a massive star = just a few million years!",
+        "Every star begins as a cloud of gas! ☁️➡️⭐ The process takes millions of years: gravitational collapse → protostar → main sequence star. Stars spend most of their life fusing hydrogen into helium. When fuel runs out: small stars become white dwarfs, medium stars become red giants then white dwarfs, and massive stars go supernova — potentially forming neutron stars or black holes!"
+      ],
+      "suggestions": ["What is a supernova", "Tell me about nebulae", "How does our Sun work"]
+    },
+    {
+      "tag": "moon_facts",
+      "patterns": [
+        "Tell me about the Moon", "Moon facts", "How far is the Moon",
+        "Moon phases explained", "Why does the Moon change shape",
+        "Was there ever water on the Moon", "Moon landing",
+        "Who walked on the Moon first", "Apollo missions",
+        "How old is the Moon", "Why do we see only one side of the Moon",
+        "Dark side of the Moon", "Is there water on the Moon"
+      ],
+      "responses": [
+        "Our Moon is Earth's only natural satellite! 🌙 It's about 384,400 km away and formed ~4.5 billion years ago when a Mars-sized body (Theia) collided with early Earth. Fun facts: the Moon is slowly moving away from Earth (3.8 cm/year), we always see the same side due to 'tidal locking,' and 12 people have walked on it — Neil Armstrong was first in 1969!",
+        "The Moon is fascinating! 🌕 It controls our tides, stabilizes Earth's axial tilt, and has inspired humanity since the dawn of civilization. Moon phases occur because we see different amounts of the Sun-lit side as it orbits Earth. NASA's Artemis program aims to return humans to the Moon and establish a sustainable presence. Water ice has been confirmed in permanently shadowed craters at the poles!",
+        "Moon 101! 🌙 Diameter: 3,474 km (about 1/4 of Earth). Gravity: 1/6 of Earth's — you'd weigh 6× less there! Temperature: -173°C to 127°C. The Apollo program (1969-1972) landed 12 astronauts on the Moon. The iconic 'dark side' isn't actually dark — it gets the same sunlight as the near side, we just can't see it from Earth due to tidal locking."
+      ],
+      "suggestions": ["Tell me about Apollo 11", "Artemis Moon program", "Why do tides happen"]
+    },
+    {
+      "tag": "exoplanets",
+      "patterns": [
+        "What are exoplanets", "Planets outside our solar system",
+        "How many exoplanets have been found", "Earth-like planets",
+        "Habitable planets", "Kepler mission", "TRAPPIST-1",
+        "Can we live on other planets", "Goldilocks zone",
+        "How do we find exoplanets", "Transit method",
+        "Proxima Centauri b", "James Webb exoplanets"
+      ],
+      "responses": [
+        "Exoplanets are planets orbiting stars other than our Sun! 🌍✨ As of now, over 5,500 exoplanets have been confirmed! They're found using methods like the 'transit method' (detecting dips in starlight) and 'radial velocity' (wobble in star's motion). The TRAPPIST-1 system has 7 Earth-sized planets, 3 in the habitable zone! The James Webb Space Telescope is now studying their atmospheres for signs of life.",
+        "The search for other worlds is one of astronomy's hottest fields! 🔭 NASA's Kepler mission alone discovered over 2,600 exoplanets. The 'habitable zone' (Goldilocks zone) is the region around a star where liquid water could exist. Proxima Centauri b, the nearest known exoplanet (4.24 light-years away), is in its star's habitable zone! With JWST, we can now analyze exoplanet atmospheres for biosignatures.",
+        "Exoplanets — worlds beyond our solar system! 🪐 The first confirmed exoplanet was discovered in 1992, and since then we've found thousands! They come in all sizes: hot Jupiters (gas giants orbiting close to their star), super-Earths, mini-Neptunes, and rocky Earth-sized worlds. Some orbit two suns, some are rogue planets floating through space. The universe is filled with worlds!"
+      ],
+      "suggestions": ["What is TRAPPIST-1", "How does the transit method work", "Could any exoplanet support life"]
+    },
+    {
+      "tag": "rocket_science",
+      "patterns": [
+        "How do rockets work", "Rocket science explained",
+        "What fuel do rockets use", "How fast do rockets go",
+        "What is thrust", "Newton's third law rockets",
+        "Types of rockets", "SpaceX Falcon 9", "Rocket propulsion",
+        "How do rockets launch", "Escape velocity",
+        "What is specific impulse", "Rocket engines"
+      ],
+      "responses": [
+        "Rockets work on Newton's Third Law — for every action, there's an equal and opposite reaction! 🚀 Burning fuel produces hot gases that blast downward, pushing the rocket upward. Key concepts: Thrust (the push force), Escape velocity (11.2 km/s to leave Earth), and Specific impulse (efficiency of fuel). Modern rockets like SpaceX's Falcon 9 can land and be reused — revolutionary for reducing space travel costs!",
+        "Rocket science is actually based on simple physics! 🔥 A rocket engine burns propellant (fuel + oxidizer) to create high-speed exhaust gases. This creates thrust via Newton's Third Law. Liquid rockets (like the Space Shuttle's engines) use liquid hydrogen + oxygen. Solid rockets are simpler but can't be throttled. SpaceX's Raptor engine uses methane — which could potentially be made on Mars!",
+        "Here's rocket science simplified! 🚀 Rockets carry both fuel AND oxidizer (since there's no air in space to burn fuel). The combustion creates expanding gases expelled at 2,500-4,500 m/s, generating thrust. Multi-stage rockets drop empty sections to reduce weight. Escape velocity from Earth is 11.2 km/s (about 40,320 km/h). SpaceX's Starship is the most powerful rocket ever built!"
+      ],
+      "suggestions": ["What is escape velocity", "How does SpaceX land rockets", "Fastest spacecraft ever"]
+    },
+    {
+      "tag": "iss_info",
+      "patterns": [
+        "Tell me about the ISS", "International Space Station",
+        "What is the ISS", "How big is the ISS",
+        "Who lives on the ISS", "How fast does the ISS travel",
+        "Can you see the ISS from Earth", "ISS orbit",
+        "Life on the space station", "Space station facts",
+        "How many people are on the ISS", "When was ISS built"
+      ],
+      "responses": [
+        "The International Space Station is humanity's home in space! 🛸 It's the size of a football field (109m × 73m), orbits Earth at 28,000 km/h (completing one orbit every 90 minutes — 16 sunrises per day!). Built by 15 nations starting in 1998, it's been continuously occupied since November 2000. The crew of ~6-7 astronauts conducts science experiments in microgravity. You can often spot it from Earth as a bright moving dot!",
+        "The ISS is an engineering marvel! 🌍 It orbits about 408 km above Earth and has been continuously inhabited for over 25 years — the longest continuous human presence in space. Inside, astronauts study the effects of microgravity on the human body, grow plants, conduct physics experiments, and even brew coffee! It cost over $150 billion to build, making it the most expensive structure ever constructed.",
+        "ISS facts! 🛸 Mass: ~420,000 kg. Speed: 7.66 km/s. Orbit time: 92 minutes. Living space: about a 6-bedroom house. Power: massive solar arrays generate 75-90 kilowatts. Water is recycled (including from astronaut sweat and breath!). It's a collaboration between NASA, Roscosmos, ESA, JAXA, and CSA. It's planned to operate until 2030, when commercial stations will take over."
+      ],
+      "suggestions": ["How do astronauts sleep in space", "What experiments happen on ISS", "How to spot the ISS"]
+    },
+    {
+      "tag": "eclipses",
+      "patterns": [
+        "What is an eclipse", "Solar eclipse explained",
+        "Lunar eclipse", "How do eclipses happen",
+        "Why do eclipses occur", "Total solar eclipse",
+        "When is the next eclipse", "Annular eclipse",
+        "Why is a solar eclipse rare", "Eclipse safety",
+        "Can eclipses damage your eyes", "Eclipse types"
+      ],
+      "responses": [
+        "Eclipses are cosmic alignments! 🌑 A solar eclipse occurs when the Moon passes between the Sun and Earth, casting a shadow. A lunar eclipse happens when Earth blocks sunlight from reaching the Moon. Types of solar eclipses: Total (Moon completely covers the Sun — dramatic!), Partial (partial coverage), and Annular (Moon appears smaller, creating a 'ring of fire'). Fun coincidence: the Sun is 400× bigger than the Moon AND 400× farther away — which is why they appear the same size in our sky!",
+        "Eclipses are nature's most dramatic astronomical events! 🌘 Solar eclipses are rarer at any given location (roughly every 375 years for a total eclipse at one spot). The path of totality is typically only 100-160 km wide. During totality, you can see the Sun's corona — its outer atmosphere — which is otherwise invisible. NEVER look directly at a solar eclipse without proper eclipse glasses (not sunglasses!) — it can cause permanent eye damage!",
+        "Eclipse science! 🌗 Solar eclipses happen 2-5 times per year, but total solar eclipses at any single location are rare. Lunar eclipses (visible to the entire night side of Earth) are more commonly seen. A 'Blood Moon' occurs during a total lunar eclipse — Earth's atmosphere bends red light onto the Moon. Eclipses have historically been important for science: Einstein's theory of relativity was confirmed during a 1919 solar eclipse!"
+      ],
+      "suggestions": ["When is the next total solar eclipse", "What is a Blood Moon", "How did eclipses help science"]
+    },
+    {
+      "tag": "gravity",
+      "patterns": [
+        "What is gravity", "How does gravity work",
+        "Explain gravity", "Why does gravity exist",
+        "Einstein's theory of gravity", "General relativity",
+        "Gravitational waves", "Zero gravity in space",
+        "Why do things fall", "Newton vs Einstein gravity",
+        "Is gravity a force", "What causes gravity"
+      ],
+      "responses": [
+        "Gravity is the fundamental force that shapes the cosmos! 🍎 Newton described it as a force between any two objects with mass. Einstein went further with General Relativity — gravity isn't really a force, but a curvature of spacetime caused by mass! Imagine a bowling ball on a trampoline — it creates a dip, and smaller balls roll toward it. That's essentially what planets, stars, and galaxies do to spacetime!",
+        "Gravity explained! 🌍 Newton's law: F = G(m₁m₂)/r² — every mass attracts every other mass. But Einstein showed gravity is actually the curvature of space and time. Massive objects like stars bend spacetime, and other objects follow these curves. This was confirmed by detecting gravitational waves in 2015 (LIGO) — ripples in spacetime caused by colliding black holes! Astronauts in the ISS experience 'microgravity' because they're in constant free-fall.",
+        "Gravity — the weakest force, yet it rules the universe! ⚡ It's about 10^36 times weaker than electromagnetism, yet it shapes galaxies and holds planets in orbit. Why? Because it only attracts (never repels) and works over infinite distances. Einstein predicted that gravity slows time (gravitational time dilation) — GPS satellites must account for this, otherwise your maps would be off by ~10 km per day!"
+      ],
+      "suggestions": ["What are gravitational waves", "How does GPS use relativity", "Gravity on other planets"]
+    },
+    {
+      "tag": "big_bang",
+      "patterns": [
+        "What is the Big Bang", "How did the universe begin",
+        "Origin of the universe", "Big Bang theory explained",
+        "How old is the universe", "What came before the Big Bang",
+        "Cosmic microwave background", "Universe expansion",
+        "Is the universe still expanding", "How big is the universe",
+        "What was before the Big Bang", "Big Bang evidence"
+      ],
+      "responses": [
+        "The Big Bang is the prevailing theory of the universe's origin! 💥 About 13.8 billion years ago, all matter, energy, space, and time began from an incredibly hot, dense state and has been expanding ever since. Key evidence: 1) The universe IS expanding (Hubble's observation), 2) Cosmic Microwave Background radiation (echo of the Big Bang), 3) Abundance of light elements (hydrogen, helium) matches predictions. The observable universe is about 93 billion light-years across!",
+        "The universe started with a bang — literally! 💫 13.8 billion years ago, from a singularity smaller than an atom, space itself began expanding. Within the first 3 minutes, the basic atomic nuclei formed. It took 380,000 years for atoms to form, releasing the Cosmic Microwave Background (CMB) — the oldest light we can see! As for 'what came before?' — that's the ultimate question. Time itself began with the Big Bang, so 'before' may not even be a meaningful concept!",
+        "Big Bang 101! 🌌 The universe went from infinitely small and hot to... well, everything we see today. Key timeline: 10⁻⁴³s (Planck time — physics as we know it begins), 10⁻³²s (cosmic inflation — universe expands exponentially), 3 min (nucleosynthesis — hydrogen & helium form), 380,000 yrs (first atoms — CMB released), 400 million yrs (first stars). And it's STILL expanding — in fact, the expansion is accelerating due to mysterious 'dark energy'!"
+      ],
+      "suggestions": ["What is dark energy", "Cosmic microwave background explained", "How will the universe end"]
+    },
+    {
+      "tag": "dark_matter_energy",
+      "patterns": [
+        "What is dark matter", "What is dark energy",
+        "Dark matter explained", "Dark energy explained",
+        "What is the universe made of", "Why can't we see dark matter",
+        "How much of the universe is dark matter",
+        "Dark matter vs dark energy", "What is dark stuff in space",
+        "Missing mass of the universe", "Has dark matter been detected"
+      ],
+      "responses": [
+        "The universe's biggest mysteries! 🌑 Normal matter (stars, planets, you and me) makes up only about 5% of the universe. Dark matter (~27%) is invisible matter that doesn't emit light but exerts gravity — we know it's there because galaxies rotate too fast to be held together by visible matter alone. Dark energy (~68%) is even stranger — it's the mysterious force accelerating the universe's expansion. Neither has been directly detected yet!",
+        "Dark matter and dark energy — the universe's hidden ingredients! 🔮 Dark matter acts like cosmic scaffolding — its gravity holds galaxies together and shaped the large-scale structure of the universe. Scientists are trying to detect it with experiments deep underground (like XENON and LUX-ZEPLIN). Dark energy was discovered in 1998 when astronomers found the universe's expansion is ACCELERATING — something is pushing everything apart, and we have no idea what it is!",
+        "Here's the cosmic recipe! 🥧 The universe is: ~68% dark energy, ~27% dark matter, ~5% normal matter. We can only see 5% of what exists! Dark matter candidates include WIMPs (Weakly Interacting Massive Particles) and axions. Dark energy might be Einstein's 'cosmological constant' — energy inherent to space itself. These are arguably the biggest unsolved problems in physics today!"
+      ],
+      "suggestions": ["How do we know dark matter exists", "What is the cosmological constant", "Will we ever detect dark matter"]
+    },
+    {
+      "tag": "supernova",
+      "patterns": [
+        "What is a supernova", "How do stars explode",
+        "Supernova explained", "What causes a supernova",
+        "Types of supernovae", "What happens after a supernova",
+        "Most famous supernova", "Betelgeuse supernova",
+        "Will Betelgeuse explode", "Supernova vs nova",
+        "Can a supernova destroy Earth", "Neutron stars"
+      ],
+      "responses": [
+        "A supernova is a star's spectacular death explosion! 💥⭐ When a massive star (8+ solar masses) runs out of fuel, its core collapses in milliseconds, then rebounds in a colossal explosion — briefly outshining an entire galaxy! Type II supernovae come from massive star collapse. Type Ia come from white dwarfs stealing mass from a companion. After the explosion, the core becomes either a neutron star or a black hole. Supernovae create and scatter heavy elements — the gold in your jewelry was forged in a supernova!",
+        "Supernovae are the most energetic events in the universe! 🌟💥 They release more energy in seconds than our Sun will in its entire 10-billion-year lifetime. Famous ones: SN 1054 (created the Crab Nebula, visible in daylight for weeks), SN 1987A (first supernova visible to the naked eye in modern times). Will Betelgeuse go supernova? Yes — but probably not for another 100,000 years. When it does, it'll be visible in daylight!",
+        "Supernova science! 💫 The core collapse happens at about 23% the speed of light. The resulting neutron star is incredibly dense — a teaspoon would weigh about 6 billion tons! Supernovae are crucial for life: they forge elements heavier than iron (carbon, oxygen, gold, uranium) and scatter them through space. We are literally made of supernova remnants. As Carl Sagan said: 'We are star stuff!'"
+      ],
+      "suggestions": ["What is a neutron star", "Will Betelgeuse explode soon", "What elements do supernovae create"]
+    },
+    {
+      "tag": "nebulae",
+      "patterns": [
+        "What is a nebula", "Tell me about nebulae",
+        "Types of nebulae", "Famous nebulae",
+        "Pillars of Creation", "Orion Nebula",
+        "Eagle Nebula", "How are nebulae formed",
+        "Why are nebulae colorful", "Planetary nebula",
+        "Can we visit a nebula"
+      ],
+      "responses": [
+        "Nebulae are giant clouds of gas and dust in space — some of the most beautiful objects in the universe! 🌈✨ Types: Emission nebulae (glow from ionized gas — like the Orion Nebula), Reflection nebulae (reflect light from nearby stars), Dark nebulae (block light behind them), and Planetary nebulae (shells of gas expelled by dying stars). The famous 'Pillars of Creation' in the Eagle Nebula are stellar nurseries where new stars are being born!",
+        "Nebulae are cosmic art galleries! 🎨 They're vast clouds spanning light-years across. The Orion Nebula (visible to the naked eye!) is about 24 light-years across and 1,344 light-years away. Nebulae are colorful because different elements glow in different colors: hydrogen (red), oxygen (blue-green), nitrogen (red), sulfur (red). JWST has captured stunning new details in nebulae that were previously invisible!",
+        "Nebulae — the universe's most photogenic objects! 📸 Some are stellar nurseries (where stars are born), others are stellar graveyards (remnants of dead stars). The Crab Nebula is the remnant of a supernova observed in 1054 AD. Planetary nebulae (like the Ring Nebula) have nothing to do with planets — they're shells of gas puffed off by dying sun-like stars. Our own Sun will create a planetary nebula in about 5 billion years!"
+      ],
+      "suggestions": ["Show me the Pillars of Creation facts", "What is the Orion Nebula", "How colorful are nebulae"]
+    },
+    {
+      "tag": "milky_way",
+      "patterns": [
+        "Tell me about the Milky Way", "What is the Milky Way",
+        "Our galaxy", "How big is the Milky Way",
+        "How many stars in the Milky Way", "Center of the Milky Way",
+        "Milky Way facts", "Where are we in the Milky Way",
+        "Will the Milky Way collide with Andromeda",
+        "What type of galaxy is the Milky Way", "Galactic center"
+      ],
+      "responses": [
+        "The Milky Way is our cosmic home! 🌌 It's a barred spiral galaxy containing 100-400 billion stars, spanning about 100,000 light-years across. Our solar system is located about 26,000 light-years from the center, in the Orion Arm. At the center sits Sagittarius A*, a supermassive black hole 4 million times the Sun's mass. The Milky Way is on a collision course with the Andromeda Galaxy — but don't worry, that's in about 4.5 billion years!",
+        "Milky Way facts! 🌟 Our galaxy rotates, and our solar system orbits the center at about 828,000 km/h — yet one orbit takes about 230 million years (a 'galactic year'). The last time we were at this position, dinosaurs hadn't evolved yet! The Milky Way has at least 100 billion planets. It's part of the Local Group (50+ galaxies) and the larger Laniakea Supercluster.",
+        "Welcome to the Milky Way! 🏠🌌 It's a barred spiral galaxy, meaning it has a central bar-shaped structure with spiral arms extending outward. We can't see the full shape from inside, but we've mapped it using radio telescopes. The galaxy's disk is about 2,000 light-years thick. On a clear, dark night, you can see the Milky Way as a hazy band of light across the sky — that's billions of distant stars!"
+      ],
+      "suggestions": ["When will Andromeda collide with us", "What is at the center of our galaxy", "How many galaxies exist"]
+    },
+    {
+      "tag": "saturn_rings",
+      "patterns": [
+        "Tell me about Saturn", "Why does Saturn have rings",
+        "Saturn's rings", "What are Saturn's rings made of",
+        "How many moons does Saturn have", "Titan moon",
+        "Can you stand on Saturn", "Saturn facts",
+        "Cassini mission", "Is Saturn all gas",
+        "Enceladus ocean"
+      ],
+      "responses": [
+        "Saturn — the jewel of our solar system! 💍🪐 Its famous rings are made of billions of particles of ice, rock, and dust, ranging from tiny grains to house-sized chunks. The rings span 282,000 km but are incredibly thin — only about 10 meters thick! Saturn has 146 known moons. Titan (the largest) has a thick atmosphere and liquid methane lakes. Enceladus has a subsurface ocean that shoots water geysers into space — a prime candidate for finding extraterrestrial life!",
+        "Saturn is spectacular! 🪐 It's the 6th planet, a gas giant 9.5× Earth's diameter. You can't stand on it — it has no solid surface. Its density is so low it would float in a giant bathtub of water! The Cassini mission (1997-2017) revolutionized our understanding: it discovered ocean worlds (Enceladus), methane seas on Titan, and revealed the rings are relatively young — only 100-200 million years old (dinosaurs existed before Saturn's rings!).",
+        "Saturn facts that'll blow your mind! 🤯 A day on Saturn is only 10.7 hours (it rotates incredibly fast). Winds can reach 1,800 km/h. It has a bizarre permanent hexagonal storm at its north pole. Its moon Titan is the only moon with a dense atmosphere and the only place besides Earth with surface liquid. Saturn's rings may disappear in about 100 million years — we're lucky to see them!"
+      ],
+      "suggestions": ["Tell me about Titan", "What is special about Enceladus", "Could there be life on Saturn's moons"]
+    },
+    {
+      "tag": "space_travel",
+      "patterns": [
+        "How long does it take to travel to Mars",
+        "Speed of light travel", "Fastest spacecraft",
+        "How long to reach nearest star", "Warp drive possible",
+        "Interstellar travel", "Light speed travel",
+        "Can we travel faster than light", "Space travel time",
+        "How long to reach Jupiter", "Voyager spacecraft speed"
+      ],
+      "responses": [
+        "Space travel times are mind-boggling! 🚀 Moon: ~3 days. Mars: ~7-9 months. Jupiter: ~5-6 years. Nearest star (Proxima Centauri at 4.24 light-years): ~73,000 years with current technology! The fastest spacecraft ever, Parker Solar Probe, reached 635,266 km/h. Even at that speed, reaching Proxima Centauri would take ~7,000 years. FTL (faster than light) travel is currently impossible under known physics, though concepts like Alcubierre warp drives are theoretically studied.",
+        "The scale of space makes travel incredibly challenging! 🌌 Voyager 1, launched in 1977, is our most distant spacecraft — about 24 billion km away, and it took 45+ years. At its speed (61,000 km/h), reaching the nearest star would take 73,000 years. Possible future technologies: ion propulsion (slow but efficient), solar sails (uses light pressure), nuclear propulsion, or hypothetical warp drives. For now, robotic probes are our best explorers!",
+        "Space is REALLY big! 📏 Some travel times from Earth: ISS = 6 hours, Moon = 3 days, Mars = 7 months, Pluto = 9.5 years (New Horizons), edge of solar system = ~35 years (Voyager). The speed of light (300,000 km/s) is the cosmic speed limit. Even at light speed: nearest star = 4.24 years, across the Milky Way = 100,000 years, nearest major galaxy (Andromeda) = 2.5 million years!"
+      ],
+      "suggestions": ["What is the fastest spacecraft ever", "Could warp drive work", "How far is Voyager 1 now"]
+    },
+    {
+      "tag": "asteroids_comets",
+      "patterns": [
+        "What is an asteroid", "What is a comet",
+        "Asteroid vs comet", "Asteroid belt",
+        "Could an asteroid hit Earth", "Dinosaur asteroid",
+        "How do we protect from asteroids", "DART mission",
+        "Halley's comet", "Near Earth objects",
+        "Meteor vs meteorite", "Shooting stars",
+        "What are shooting stars", "Meteor shower"
+      ],
+      "responses": [
+        "Asteroids and comets — the solar system's leftovers! ☄️ Asteroids are rocky remnants from the solar system's formation, mostly found in the asteroid belt between Mars and Jupiter. Comets are 'dirty snowballs' of ice and dust from the outer solar system — their tails form when solar heat vaporizes their ice. A meteor is a streak of light when space debris burns in our atmosphere ('shooting star'). A meteorite is one that actually reaches the ground!",
+        "Planetary defense is real! 🛡️ About 66 million years ago, a ~10 km asteroid hit Earth and wiped out the dinosaurs. NASA's DART mission (2022) successfully changed an asteroid's orbit by crashing into Dimorphos — the first test of planetary defense! There are about 2,300 known Potentially Hazardous Asteroids (PHAs). NASA tracks Near-Earth Objects 24/7. Halley's Comet visits us every 75-79 years — next appearance: 2061!",
+        "Space rocks! 🪨☄️ Key differences: Asteroids = rocky/metallic, orbit the Sun. Comets = ice+dust, develop tails near the Sun. Meteoroids = small rocky particles in space. Meteors = meteoroids burning up in atmosphere (shooting stars). Meteorites = ones that survive to reach Earth's surface. The Chelyabinsk meteor (2013) exploded over Russia with 30× Hiroshima's energy — a reminder that space rocks can be dangerous!"
+      ],
+      "suggestions": ["What was the DART mission", "When is the next meteor shower", "How big was the dinosaur asteroid"]
+    },
+    {
+      "tag": "space_suits",
+      "patterns": [
+        "How do space suits work", "What are space suits made of",
+        "Space suit facts", "EVA suit", "Why do astronauts wear suits",
+        "How much does a space suit cost", "Space suit temperature",
+        "Can you survive without a space suit", "Space suit layers",
+        "Astronaut clothing"
+      ],
+      "responses": [
+        "Space suits are like personal spaceships! 🧑‍🚀 NASA's EVA suits have 14 layers of material, provide oxygen, remove CO₂, maintain pressure (space is a vacuum!), regulate temperature (-157°C to +121°C in direct sunlight), and protect from micrometeoroids. They cost about $12 million each and weigh ~127 kg on Earth (but feel weightless in orbit). Astronauts wear a liquid cooling garment underneath and a maximum absorbency garment (basically a space diaper!) for long EVAs.",
+        "Space suit engineering is incredible! 🌟 Without a suit in space, you'd lose consciousness in ~15 seconds (due to lack of oxygen), your blood wouldn't boil but your saliva and tears would vaporize, and you'd swell up from gas expansion. The suit maintains ~4.3 psi of pressure, supplies 6-8 hours of oxygen, has a drink bag and a helmet-mounted display. NASA's new xEMU suits for Artemis allow more mobility — astronauts can actually walk normally on the Moon!",
+        "Fun space suit facts! 🧑‍🚀 The gloves are the hardest part to design — they need to be flexible enough for delicate work but pressurized and protective. Helmets have a gold visor to filter harmful solar radiation. The suit's backpack (PLSS) is basically a life support system: it circulates oxygen, removes CO₂ with lithium hydroxide, and pumps cooling water. During an EVA, astronauts burn about 2,000 calories!"
+      ],
+      "suggestions": ["What happens without a space suit in space", "How long can astronauts stay outside", "New Artemis space suits"]
+    },
+    {
+      "tag": "alien_life",
+      "patterns": [
+        "Are aliens real", "Is there life on other planets",
+        "Extraterrestrial life", "Have we found alien life",
+        "SETI", "Drake equation", "Fermi paradox",
+        "Where could aliens live", "Signs of alien life",
+        "UFOs and aliens", "Are we alone in the universe",
+        "Astrobiology", "Life on Europa", "Life on Enceladus"
+      ],
+      "responses": [
+        "The search for extraterrestrial life is one of science's biggest quests! 👽 We haven't found definitive proof yet, but the odds are promising. The Drake Equation estimates millions of civilizations could exist in our galaxy. The Fermi Paradox asks: if aliens exist, where is everybody? Best candidates for life in our solar system: Europa (Jupiter's moon — subsurface ocean), Enceladus (Saturn's moon — water geysers), and Mars (possible ancient microbial life). SETI has been scanning for radio signals since 1960!",
+        "Are we alone? 🌌 With 100+ billion galaxies, each with 100+ billion stars, and trillions of planets — the numbers suggest life should exist elsewhere. NASA's astrobiology program searches for biosignatures — chemical signs of life — in exoplanet atmospheres using JWST. In 2020, phosphine was tentatively detected in Venus's atmosphere (a possible biosignature, though debated). Europa Clipper mission will explore Jupiter's moon Europa's subsurface ocean in the 2030s!",
+        "The alien life question! 👾 Types we might find: microbial life (most likely — maybe on Mars or ocean moons), complex life (possible on some exoplanets), intelligent civilizations (the big question!). The Fermi Paradox has many proposed solutions: maybe civilizations self-destruct, maybe they're too far away, maybe they exist but we can't recognize their signals, or maybe we're genuinely alone. Either answer is equally profound!"
+      ],
+      "suggestions": ["What is the Fermi Paradox", "Could there be life on Europa", "What is the Drake Equation"]
+    },
+    {
+      "tag": "telescopes",
+      "patterns": [
+        "Tell me about telescopes", "How do telescopes work",
+        "James Webb Space Telescope", "JWST discoveries",
+        "Hubble telescope", "Biggest telescope in the world",
+        "Radio telescopes", "How far can telescopes see",
+        "Space telescopes vs ground telescopes",
+        "What has JWST discovered", "Webb telescope images"
+      ],
+      "responses": [
+        "Telescopes are our windows to the universe! 🔭 Types: Optical (use lenses/mirrors to gather visible light — like Hubble), Radio (detect radio waves — like ALMA), Infrared (see through dust — like JWST), and X-ray (detect high-energy events — like Chandra). The James Webb Space Telescope (launched Dec 2021) is the most powerful space telescope ever — its 6.5m gold-coated mirror can see galaxies from 13+ billion years ago, near the very beginning of the universe!",
+        "JWST is revolutionary! 🌟 It has already transformed our understanding of the early universe, revealing galaxies that formed just 300 million years after the Big Bang (earlier than expected!). It has detected water vapor, CO₂, and methane in exoplanet atmospheres, captured stunning details in nebulae, and studied the atmospheric composition of TRAPPIST-1 planets. The Hubble Space Telescope (1990-present) remains active too, working in visible/UV light!",
+        "Telescope facts! 🔭 The Extremely Large Telescope (ELT) being built in Chile will have a 39-meter mirror — it'll see features on exoplanets! Radio telescopes like FAST in China (500m dish) can detect faint signals from across the universe. The Event Horizon Telescope (EHT) isn't one telescope — it links radio dishes worldwide to create an Earth-sized virtual telescope, which captured the first black hole image in 2019!"
+      ],
+      "suggestions": ["What has JWST discovered", "How does the Hubble telescope work", "What is the biggest telescope"]
+    },
+    {
+      "tag": "space_exploration_history",
+      "patterns": [
+        "History of space exploration", "First human in space",
+        "Yuri Gagarin", "Apollo 11", "Moon landing",
+        "Space race", "First satellite in space", "Sputnik",
+        "First woman in space", "Space shuttle program",
+        "Major milestones in space", "Timeline of space exploration"
+      ],
+      "responses": [
+        "Space exploration history is an incredible journey! 🚀 Key milestones: 1957 — Sputnik (first satellite, USSR), 1961 — Yuri Gagarin (first human in space), 1963 — Valentina Tereshkova (first woman in space), 1969 — Apollo 11 Moon landing (Neil Armstrong: 'One small step...'), 1971 — first space station (Salyut 1), 1981 — Space Shuttle era begins, 1990 — Hubble launched, 1998 — ISS construction begins, 2021 — JWST launched, 2023 — Artemis prepares return to Moon!",
+        "The Space Race changed history! 🌍🚀 It started with the Cold War rivalry between the USA and USSR. The Soviets scored many firsts: first satellite, first human, first spacewalk, first woman in space. The US responded with the Apollo program — landing 12 astronauts on the Moon between 1969-1972. Apollo 13 survived a dramatic near-disaster. Since then: Skylab, Mir, Space Shuttle (135 missions), ISS, and now the commercial space era with SpaceX, Blue Origin, and more!",
+        "From Sputnik to Starship! 📅 The Space Shuttle (1981-2011) flew 135 missions but two ended in tragedy (Challenger 1986, Columbia 2003). Today we're in a new golden age: SpaceX's reusable rockets have cut launch costs by 90%, ISRO (India) achieves Mars orbit on first try for less than the cost of the movie 'Gravity,' China has its own space station (Tiangong), and NASA's Artemis program plans to establish a permanent Moon base!"
+      ],
+      "suggestions": ["Tell me about Apollo 11", "What was the Space Race", "First Indian in space"]
+    },
+    {
+      "tag": "sun_facts",
+      "patterns": [
+        "Tell me about the Sun", "How hot is the Sun",
+        "Sun facts", "What is the Sun made of",
+        "How old is the Sun", "How big is the Sun",
+        "Solar flares", "What will happen when the Sun dies",
+        "Sun temperature", "Solar wind", "Sunspots",
+        "Will the Sun explode", "How does the Sun produce energy"
+      ],
+      "responses": [
+        "Our Sun is an ordinary yet extraordinary star! ☀️ It's a G-type main-sequence star (yellow dwarf), about 4.6 billion years old with ~5 billion years left. Its surface temperature is ~5,500°C but the core is a blistering 15 million°C! It's 109× Earth's diameter and contains 99.86% of the solar system's mass. Every second, it converts 600 million tons of hydrogen into helium through nuclear fusion, releasing energy equivalent to billions of nuclear bombs!",
+        "Sun science! 🌞 The Sun is made of ~73% hydrogen and ~25% helium. Solar flares are sudden bursts of energy caused by magnetic field tangling — they can disrupt GPS and power grids on Earth. Sunspots are cooler, darker regions caused by intense magnetic activity. Solar wind (stream of charged particles) creates the Northern/Southern Lights (aurora) when it hits Earth's magnetic field!",
+        "What happens when the Sun dies? 🌅 In about 5 billion years, the Sun will exhaust its hydrogen fuel and expand into a Red Giant — engulfing Mercury, Venus, and possibly Earth. Then it'll shed its outer layers as a beautiful planetary nebula, leaving behind a white dwarf (a hot, dense remnant about Earth's size). It will NOT explode as a supernova — it's not massive enough. The white dwarf will slowly cool over trillions of years."
+      ],
+      "suggestions": ["What are solar flares", "How does nuclear fusion work in the Sun", "What causes the Northern Lights"]
+    },
+    {
+      "tag": "constellations",
+      "patterns": [
+        "What are constellations", "How many constellations are there",
+        "Famous constellations", "Orion constellation",
+        "Big Dipper", "How to identify constellations",
+        "Zodiac constellations", "Star gazing tips",
+        "Best time to stargaze", "North Star",
+        "Polaris", "Southern Cross"
+      ],
+      "responses": [
+        "Constellations are patterns of stars as seen from Earth! ⭐ There are 88 officially recognized constellations (by the IAU). Famous ones: Orion (the Hunter — easy to spot by the 3-star belt), Ursa Major (contains the Big Dipper), Cassiopeia (W-shaped), and Scorpius. The North Star (Polaris) is found by following the Big Dipper's pointer stars — it barely moves in the sky, making it perfect for navigation!",
+        "Stargazing 101! 🌟 Tips for finding constellations: 1) Get away from city lights, 2) Let your eyes adjust for 20-30 minutes, 3) Start with easy ones like Orion (winter) or the Big Dipper (year-round in Northern Hemisphere), 4) Use free apps like Stellarium or Sky Map. The zodiac has 13 constellations the Sun passes through (yes, 13 — Ophiuchus is the forgotten one!). Ancient civilizations used constellations for navigation and agriculture!",
+        "Fun constellation facts! ✨ The stars in a constellation aren't actually near each other — they just appear connected from our viewpoint. Stars in Orion range from 243 to 1,360 light-years away! Different cultures saw different patterns: the Big Dipper is a plough in the UK, a pot in many cultures, and part of a great bear for the Greeks. The Southern Cross (Crux) is only visible from the Southern Hemisphere and appears on several national flags!"
+      ],
+      "suggestions": ["How to find the North Star", "Best time for stargazing", "What zodiac constellation am I"]
+    },
+    {
+      "tag": "space_food",
+      "patterns": [
+        "What do astronauts eat", "Space food",
+        "How do astronauts eat in space", "Food in zero gravity",
+        "Can you cook in space", "Astronaut diet",
+        "Space food history", "Is space food tasty",
+        "How is food prepared for space", "Water in space"
+      ],
+      "responses": [
+        "Space food has evolved dramatically! 🍽️🚀 Early space food was unappetizing paste squeezed from tubes. Today, astronauts enjoy over 200 items: thermostabilized pouches, freeze-dried meals (add hot water), irradiated meat, fresh fruits (delivered on cargo missions), and even tortillas (bread creates dangerous floating crumbs!). ISS has a food warmer but no refrigerator. Astronauts often crave hot sauce because microgravity causes nasal congestion, dulling taste!",
+        "Eating in space is tricky! 🥘 In microgravity, liquids form floating blobs and crumbs become projectiles that can damage equipment or get inhaled. Solutions: food comes in sticky/saucy forms, drinks use sealed pouches with straws, and tortillas replace bread. Astronauts can grow fresh lettuce on the ISS (Veggie experiment). Fun fact: the first food eaten in space was pureed beef and liver by Yuri Gagarin in 1961!",
+        "Space cuisine! 🌮 ISS astronauts get about 2,500 calories/day. Each space agency contributes: NASA brings American food, JAXA sends Japanese dishes, ESA provides European cuisine. Salt and pepper come as liquids (granules would float everywhere). Special coffee cups were designed using capillary action to work in zero-g. The ultimate goal: growing enough food on Mars for a self-sustaining colony!"
+      ],
+      "suggestions": ["Can astronauts grow food in space", "What's the weirdest space food", "How do astronauts drink water"]
+    },
+    {
+      "tag": "jupiter_facts",
+      "patterns": [
+        "Tell me about Jupiter", "Jupiter facts",
+        "How big is Jupiter", "Great Red Spot",
+        "Jupiter's moons", "Europa ocean",
+        "Ganymede", "Is Jupiter a failed star",
+        "How many moons does Jupiter have",
+        "Juno mission", "Jupiter atmosphere"
+      ],
+      "responses": [
+        "Jupiter — the king of planets! 👑🪐 It's the largest planet in our solar system: 11× Earth's diameter and 318× Earth's mass. You could fit 1,300 Earths inside it! The Great Red Spot is a storm larger than Earth that has been raging for at least 400 years (though it's shrinking). Jupiter has 95 known moons, including the four Galilean moons: Io (most volcanically active body), Europa (subsurface ocean), Ganymede (largest moon in the solar system), and Callisto.",
+        "Jupiter is fascinating! ⚡ It's mostly hydrogen and helium — similar composition to the Sun. If it were about 80× more massive, it could have become a star! Jupiter's magnetic field is 20,000× stronger than Earth's. Its moon Europa is one of the best places to search for extraterrestrial life — beneath its icy shell lies an ocean with more water than all of Earth's oceans combined! NASA's Juno mission has been studying Jupiter's atmosphere and interior since 2016.",
+        "Jupiter facts! 🌪️ A day on Jupiter is only 9.9 hours (fastest-rotating planet). Its atmosphere has bands of ammonia clouds and storms. Lightning on Jupiter is 1,000× more powerful than Earth's. Jupiter acts as a cosmic shield — its massive gravity deflects many asteroids and comets that might otherwise hit Earth. The Shoemaker-Levy 9 comet impact in 1994 left scars on Jupiter visible from Earth!"
+      ],
+      "suggestions": ["What is the Great Red Spot", "Could there be life on Europa", "How many moons does Jupiter have"]
+    },
+    {
+      "tag": "light_speed",
+      "patterns": [
+        "What is the speed of light", "How fast is light",
+        "Speed of light facts", "Can anything go faster than light",
+        "What is a light year", "Light speed travel",
+        "Why can't we go faster than light", "Einstein speed of light",
+        "Special relativity", "Time dilation",
+        "E equals mc squared"
+      ],
+      "responses": [
+        "The speed of light is the ultimate cosmic speed limit! 💡 In a vacuum, light travels at exactly 299,792,458 m/s (about 300,000 km/s or 1.08 billion km/h). Einstein's Special Relativity (1905) showed that nothing with mass can reach this speed — as you approach it, your mass effectively increases toward infinity, requiring infinite energy. A light-year is the distance light travels in one year: about 9.46 trillion km. E=mc² means mass and energy are equivalent!",
+        "Light speed science! ⚡ At the speed of light, you could circle Earth 7.5 times in one second. But Einstein showed something weird: as you go faster, time slows down for you (time dilation). At 99.9% light speed, 1 year for you = ~22 years on Earth. At exactly light speed, time stops completely. This isn't science fiction — we've confirmed it with atomic clocks on planes and GPS satellites must account for it!",
+        "Speed of light facts! 🌟 Light from the Sun takes 8 minutes 20 seconds to reach Earth. From the nearest star (Proxima Centauri) = 4.24 years. From the edge of the observable universe = 13.8 billion years. Neutrinos travel close to light speed. The only things that travel AT light speed are massless particles: photons (light) and gravitons (hypothetical). Tachyons (faster-than-light particles) are theoretical and likely don't exist."
+      ],
+      "suggestions": ["What is time dilation", "Explain E=mc²", "Could we ever reach light speed"]
+    },
+    {
+      "tag": "venus_mercury",
+      "patterns": [
+        "Tell me about Venus", "Venus facts",
+        "Tell me about Mercury", "Mercury facts",
+        "Hottest planet", "Why is Venus so hot",
+        "Venus atmosphere", "Mercury closest to Sun",
+        "Can we land on Venus", "Venus missions",
+        "Venus greenhouse effect", "Inner planets"
+      ],
+      "responses": [
+        "Venus and Mercury — the inner planets! 🌡️ Venus is Earth's 'evil twin' — similar size but a hellscape with surface temps of 465°C (hottest planet, due to extreme greenhouse effect), atmospheric pressure 92× Earth's, and clouds of sulfuric acid. It rotates backwards and a day is longer than its year! Mercury is the smallest planet, closest to the Sun, with extreme temperature swings (-180°C to 430°C). Despite being closest to the Sun, it's NOT the hottest — Venus's greenhouse effect makes it hotter!",
+        "Venus facts! 🌋 Despite its beauty as the 'Evening Star,' Venus's surface would crush, dissolve, and bake you simultaneously. The Soviet Venera probes (1970s-80s) are the only spacecraft to successfully land — they survived only 23-127 minutes. Venus has no moons, no rings, and 1,600+ volcanoes. Recent detection of phosphine in its atmosphere sparked debate about possible microbial life in its clouds!",
+        "Mercury — the speedy messenger! 🏃 Mercury orbits the Sun in just 88 Earth days (fastest planet). It has virtually no atmosphere and extreme temperature variation. Despite its small size, it has a massive iron core — about 85% of its radius. NASA's MESSENGER mission (2011-2015) found water ice in permanently shadowed craters near its poles! BepiColombo (ESA/JAXA) is currently on its way to study Mercury in more detail."
+      ],
+      "suggestions": ["Why is Venus hotter than Mercury", "Could there be life in Venus's clouds", "Mercury ice at the poles"]
+    },
+    {
+      "tag": "uranus_neptune",
+      "patterns": [
+        "Tell me about Uranus", "Tell me about Neptune",
+        "Uranus facts", "Neptune facts", "Ice giants",
+        "Why is Uranus tilted", "Neptune's Great Dark Spot",
+        "Uranus rings", "How cold is Neptune",
+        "Triton moon", "Outer planets", "Why is Neptune blue"
+      ],
+      "responses": [
+        "The ice giants — Uranus and Neptune! 🧊 Uranus is unique because it rotates on its side (98° tilt — probably from an ancient collision). It has 27 moons and faint rings. Neptune is the windiest planet with speeds up to 2,100 km/h! Both appear blue due to methane in their atmospheres. Neptune's moon Triton orbits backwards (retrograde) and may be a captured Kuiper Belt object. These distant worlds have only been visited once — by Voyager 2 in 1986 and 1989.",
+        "Uranus and Neptune are the least explored planets! 🔭 Uranus is -224°C (coldest planetary atmosphere). Its seasons last 21 years due to its extreme tilt! Neptune, despite being farther from the Sun, is actually warmer than Uranus — it generates internal heat. Both may have 'diamond rain' in their interiors — extreme pressure converts methane carbon into diamonds that sink like rain! A dedicated ice giant mission is a top priority for planetary scientists.",
+        "Ice giant facts! ❄️ Unlike gas giants (Jupiter, Saturn) which are mostly hydrogen/helium, Uranus and Neptune have thick mantles of water, ammonia, and methane ices. Uranus was the first planet discovered with a telescope (William Herschel, 1781). Neptune's existence was predicted by mathematics before it was observed — one of astronomy's greatest triumphs! Both are about 4× Earth's diameter but 14-17× Earth's mass."
+      ],
+      "suggestions": ["Does it rain diamonds on Neptune", "Why is Uranus sideways", "Will we send more missions to ice giants"]
+    },
+    {
+      "tag": "dwarf_planets",
+      "patterns": [
+        "What happened to Pluto", "Why is Pluto not a planet",
+        "Dwarf planets", "Tell me about Pluto",
+        "How many dwarf planets are there", "Ceres dwarf planet",
+        "Eris", "New Horizons Pluto", "Pluto facts",
+        "Kuiper Belt", "Why was Pluto demoted"
+      ],
+      "responses": [
+        "Pluto's demotion is astronomy's biggest drama! 🥺 In 2006, the IAU redefined 'planet' — requiring an object to: orbit the Sun, be round, AND clear its orbital neighborhood. Pluto fails #3 (it shares its orbit with other Kuiper Belt objects). It's now a 'dwarf planet' along with Eris, Haumea, Makemake, and Ceres. NASA's New Horizons flew past Pluto in 2015, revealing a stunning world with heart-shaped nitrogen ice plains, mountains of water ice, and a thin atmosphere!",
+        "Pluto may be small but it's spectacular! 💙 New Horizons revealed: a heart-shaped region called Tombaugh Regio, 3,500m-high mountains of water ice, possible cryovolcanoes, and a complex atmosphere. Pluto is only 2,377 km across (smaller than Earth's Moon!). It has 5 moons — Charon is so large relative to Pluto that they orbit each other (a binary system). The Kuiper Belt, where Pluto lives, contains millions of icy objects beyond Neptune.",
+        "Dwarf planets explained! 🌑 There are 5 officially recognized dwarf planets: Pluto, Eris, Haumea, Makemake, and Ceres. Ceres is in the asteroid belt and was visited by NASA's Dawn mission — it has bright salt deposits and may have a subsurface ocean. Eris is actually more massive than Pluto (its discovery triggered the reclassification debate!). Many astronomers think there could be hundreds of dwarf planets in the outer solar system yet to be discovered."
+      ],
+      "suggestions": ["Should Pluto be a planet again", "What did New Horizons find", "What is the Kuiper Belt"]
+    },
+    {
+      "tag": "space_weather",
+      "patterns": [
+        "What is space weather", "Solar storms",
+        "Geomagnetic storms", "Coronal mass ejection",
+        "Northern lights", "Aurora borealis",
+        "How do auroras form", "Can solar storms affect Earth",
+        "Carrington Event", "Solar cycle",
+        "How does space weather affect us"
+      ],
+      "responses": [
+        "Space weather is real and affects our daily lives! 🌞🌊 The Sun constantly blasts charged particles (solar wind) into space. During solar flares and coronal mass ejections (CMEs), huge bursts of plasma can hit Earth's magnetic field, causing geomagnetic storms. Effects: beautiful auroras (Northern/Southern Lights), but also GPS disruptions, satellite damage, radio blackouts, and even power grid failures. The Carrington Event (1859) was so powerful it caused telegraph machines to spark and catch fire!",
+        "Auroras are space weather's gift! ✨ When solar wind particles hit Earth's magnetosphere, they're funneled toward the poles. There, they collide with atmospheric gases: oxygen glows green/red, nitrogen glows purple/blue — creating the stunning aurora borealis (north) and aurora australis (south). The Sun follows an 11-year solar cycle of activity. During solar maximum, auroras can be visible at lower latitudes!",
+        "Space weather threats! ⚠️ A Carrington-level event today could cause $1-2 trillion in damage: satellite destruction, GPS failure, radio blackouts, and months-long power outages. Organizations like NOAA's Space Weather Prediction Center monitor the Sun 24/7. In 2024, an extreme geomagnetic storm produced auroras visible from India! As we depend more on technology, space weather preparedness becomes increasingly important."
+      ],
+      "suggestions": ["What causes the Northern Lights", "What was the Carrington Event", "Could a solar storm destroy our electronics"]
+    },
+    {
+      "tag": "space_careers",
+      "patterns": [
+        "How to become an astronaut", "Space careers",
+        "How to work at NASA", "Astrophysics career",
+        "How to study astronomy", "Space engineering jobs",
+        "ISRO careers", "What qualifications for space career",
+        "Best universities for astronomy", "Space science degree",
+        "Aerospace engineering"
+      ],
+      "responses": [
+        "Want a career in space? 🚀 There are MANY paths! Astronaut (requires STEM degree + experience, extremely competitive), Astrophysicist (PhD recommended), Aerospace Engineer (design rockets/satellites), Planetary Scientist, Astrobiologist, Mission Controller, Space Medicine, Data Scientist for space missions, and more. Key organizations: NASA, ESA, ISRO, SpaceX, Blue Origin, JAXA. Start with a strong foundation in physics, math, and computer science!",
+        "Space careers are booming! 📈 The space industry is expected to be worth $1.8 trillion by 2035. Paths: 1) Astronaut — need a STEM degree, 1000+ hours flight experience (for pilots), and excellent health. 2) Rocket Engineer — aerospace/mechanical engineering degree. 3) Space Scientist — physics/astronomy degree + PhD. 4) Ground Support — mission planners, communicators, analysts. ISRO, NASA, and private companies all hire regularly!",
+        "How to start your space career! 🌟 For students: 1) Excel in physics, math, chemistry. 2) Pursue BSc/BTech in aerospace, astrophysics, or related field. 3) Join astronomy clubs and do internships. 4) Top institutions: MIT, Caltech, IISc, IIT (Aerospace), Cambridge. 5) Look for opportunities: NASA internships, ISRO's YUVIKA program, ESA's Young Graduate Trainee program. Remember: not just astronauts — thousands of ground scientists and engineers make space exploration possible!"
+      ],
+      "suggestions": ["How to become an astronaut", "Best courses for astrophysics", "ISRO recruitment process"]
+    },
+    {
+      "tag": "fun_space_facts",
+      "patterns": [
+        "Tell me a fun space fact", "Cool space facts",
+        "Interesting things about space", "Mind blowing space facts",
+        "Random space fact", "Weird things about space",
+        "Amazing universe facts", "Did you know space",
+        "Surprising astronomy facts", "Fun facts about space",
+        "What's something cool about space"
+      ],
+      "responses": [
+        "Here's a mind-blowing fact! 🤯 There are more stars in the observable universe (~2 trillion galaxies × 100-400 billion stars each) than grains of sand on ALL of Earth's beaches! And each star could have planets... the universe is incomprehensibly vast!",
+        "Space fact: A day on Venus (243 Earth days) is LONGER than a year on Venus (225 Earth days)! 🌀 So Venus completes an orbit around the Sun before it finishes one rotation. Plus, it rotates backwards compared to most planets!",
+        "Did you know? 🧲 There's a massive cloud of alcohol in space! Sagittarius B2, near the center of our galaxy, contains enough ethyl alcohol to fill 400 trillion trillion pints of beer. Cheers to the cosmos! 🍺",
+        "Neutron stars are so dense that a teaspoon of neutron star material would weigh about 6 BILLION tons — roughly the weight of Mount Everest! 🏔️ And some neutron stars spin at over 700 rotations per SECOND!",
+        "Here's a wild one: if you could fold a piece of paper 42 times, it would be thick enough to reach the Moon! 🌙 This is because of exponential growth — each fold doubles the thickness. Of course, physically folding paper more than about 12 times is nearly impossible!",
+        "Space is completely silent! 🔇 Sound needs a medium (air, water) to travel through. In the vacuum of space, no one can hear you scream — or anything else. Astronauts communicate via radio waves. However, NASA has 'sonified' data from space — converting electromagnetic signals into audible sound. The 'sound' of a black hole is terrifyingly deep!",
+        "Your body is literally made of stars! ⭐ Every element heavier than hydrogen and helium was forged inside a star or during a supernova explosion. The calcium in your bones, the iron in your blood, the oxygen you breathe — all created by stellar nucleosynthesis billions of years ago. As Carl Sagan said: 'We are star stuff.'"
+      ],
+      "suggestions": ["Tell me another fun fact", "Most amazing thing about space", "Weirdest planet in our solar system"]
+    },
+    {
+      "tag": "breathing_exercise",
+      "patterns": [
+        "Help me calm down", "I need to relax",
+        "Breathing exercise", "Calm me down",
+        "I'm stressed", "Help me breathe",
+        "Relaxation technique", "Meditation",
+        "I feel overwhelmed", "Anxiety",
+        "Space is scary", "Universe makes me anxious"
+      ],
+      "responses": [
+        "Let's take a moment to breathe and center ourselves. 🧘 Even astronauts use breathing techniques to stay calm! I'll guide you through a cosmic breathing exercise. Click the breathing button below to start — breathe in like you're filling your lungs with stardust, hold like you're floating in space, and breathe out like you're drifting through a nebula. ✨",
+        "The vastness of space can feel overwhelming, and that's completely normal! 🌌 Let's do a calming exercise together. The 4-7-8 technique: Breathe in for 4 seconds (imagine looking at Earth from space), Hold for 7 seconds (floating peacefully in orbit), Breathe out for 8 seconds (gently drifting through the cosmos). Click the breathing exercise button to begin!",
+        "Even astronauts need to relax! 🧑‍🚀 Let me guide you through a space-themed breathing exercise. Think of it as a 'spacewalk for your mind.' The key is slow, deep breathing — it activates your parasympathetic nervous system and reduces stress. Ready? Use the breathing exercise button to start the guided animation!"
+      ],
+      "suggestions": ["Tell me a calming space fact", "Continue exploring space", "More about astronaut wellness"]
+    },
+    {
+      "tag": "fallback",
+      "patterns": [],
+      "responses": [
+        "Hmm, I'm not sure about that one! 🤔 I specialize in space and astronomy topics. Try asking me about planets, stars, black holes, space missions, or rocket science!",
+        "That's beyond my cosmic knowledge! 🌌 I'm best with questions about the universe — planets, galaxies, astronauts, telescopes, and space exploration. What space topic interests you?",
+        "I didn't quite catch that — my sensors are calibrated for space and astronomy topics! 🔭 Ask me about the solar system, black holes, Mars missions, or anything cosmic!",
+        "My database doesn't have info on that topic! 🛸 I'm CosmosBot — specialized in space, astronomy, and astrophysics. Want to explore something in the universe?"
+      ],
+      "suggestions": ["What can you tell me about", "Solar system facts", "Black holes explained", "Fun space facts"]
+    }
+  ]
+}
