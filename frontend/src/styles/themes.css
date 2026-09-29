@@ -1,0 +1,91 @@
+/* ============================================
+   CosmosBot — Theme Variables (Dark & Light Mode)
+   ============================================ */
+
+:root[data-theme="dark"] {
+    --bg-primary: #06061a;
+    --bg-secondary: #0d0d2b;
+    --bg-card: rgba(20, 20, 55, 0.65);
+    --bg-card-hover: rgba(30, 30, 75, 0.75);
+    --bg-input: rgba(15, 15, 45, 0.8);
+    --bg-glass: rgba(13, 13, 43, 0.7);
+    --bg-modal-overlay: rgba(3, 3, 15, 0.8);
+
+    --border-glass: rgba(120, 119, 198, 0.2);
+    --border-glow: rgba(139, 92, 246, 0.35);
+    --border-focus: #7c6aef;
+
+    --text-primary: #f0f0ff;
+    --text-secondary: #a0a0cc;
+    --text-muted: #606088;
+    --text-accent: #a78bfa;
+
+    --accent-primary: #7c6aef;
+    --accent-secondary: #06b6d4;
+    --accent-tertiary: #ec4899;
+    --accent-gradient: linear-gradient(135deg, #7c6aef 0%, #06b6d4 100%);
+    --nebula-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #db2777 100%);
+
+    --user-msg-bg: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    --user-msg-text: #ffffff;
+    --bot-msg-bg: rgba(25, 25, 65, 0.75);
+    --bot-msg-text: #e8e8ff;
+    --bot-msg-border: rgba(120, 119, 198, 0.25);
+
+    --chip-bg: rgba(30, 30, 70, 0.6);
+    --chip-border: rgba(120, 119, 198, 0.25);
+    --chip-text: #c4b5fd;
+    --chip-hover-bg: rgba(99, 102, 241, 0.25);
+
+    --confidence-high: #10b981;
+    --confidence-medium: #f59e0b;
+    --confidence-low: #ef4444;
+
+    --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    --shadow-glow: 0 0 25px rgba(124, 106, 239, 0.35);
+    --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+:root[data-theme="light"] {
+    --bg-primary: #f0f2ff;
+    --bg-secondary: #e5e8fc;
+    --bg-card: rgba(255, 255, 255, 0.85);
+    --bg-card-hover: rgba(255, 255, 255, 0.95);
+    --bg-input: rgba(255, 255, 255, 0.9);
+    --bg-glass: rgba(255, 255, 255, 0.8);
+    --bg-modal-overlay: rgba(15, 15, 40, 0.5);
+
+    --border-glass: rgba(99, 102, 241, 0.2);
+    --border-glow: rgba(99, 102, 241, 0.25);
+    --border-focus: #6366f1;
+
+    --text-primary: #1e1b4b;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    --text-accent: #6366f1;
+
+    --accent-primary: #6366f1;
+    --accent-secondary: #0891b2;
+    --accent-tertiary: #db2777;
+    --accent-gradient: linear-gradient(135deg, #6366f1 0%, #0891b2 100%);
+    --nebula-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+
+    --user-msg-bg: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    --user-msg-text: #ffffff;
+    --bot-msg-bg: rgba(255, 255, 255, 0.9);
+    --bot-msg-text: #1e1b4b;
+    --bot-msg-border: rgba(99, 102, 241, 0.15);
+
+    --chip-bg: rgba(255, 255, 255, 0.8);
+    --chip-border: rgba(99, 102, 241, 0.2);
+    --chip-text: #4338ca;
+    --chip-hover-bg: rgba(99, 102, 241, 0.15);
+
+    --confidence-high: #059669;
+    --confidence-medium: #d97706;
+    --confidence-low: #dc2626;
+
+    --shadow-glass: 0 8px 32px 0 rgba(99, 102, 241, 0.12);
+    --shadow-glow: 0 0 25px rgba(99, 102, 241, 0.2);
+    --shadow-card: 0 4px 20px rgba(99, 102, 241, 0.08);
+}
