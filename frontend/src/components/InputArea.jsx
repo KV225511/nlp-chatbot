@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 const PLACEHOLDERS = {
     'en': 'Ask me about black holes, rockets, planets, or the cosmos...',
@@ -25,6 +25,12 @@ export default function InputArea({
     disabled
 }) {
     const [inputValue, setInputValue] = useState('');
+    const inputRef = useRef(null);
+
+    // Put the cursor back in the box as soon as the bot has answered
+    useEffect(() => {
+        if (!disabled) inputRef.current?.focus();
+    }, [disabled]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -53,13 +59,15 @@ export default function InputArea({
 
                 {/* Text input */}
                 <input
+                    ref={inputRef}
                     type="text"
                     className="chat-text-input"
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     placeholder={isListening ? 'Listening to your voice...' : placeholderText}
-                    disabled={disabled}
+                    maxLength={500}
                     autoComplete="off"
+                    aria-label="Type your question"
                 />
 
                 {/* Speech Input (Microphone) */}

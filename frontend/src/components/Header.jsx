@@ -7,6 +7,7 @@ export default function Header({
     onToggleSound,
     onOpenMood,
     onExportPDF,
+    onClearChat,
     language,
     onChangeLanguage,
     currentMood
@@ -73,14 +74,14 @@ export default function Header({
                     {isMuted ? '🔇' : '🔊'}
                 </button>
 
-                {/* Mood Dashboard Modal Trigger */}
+                {/* Clear Conversation */}
                 <button
                     className="header-action-btn"
-                    onClick={onOpenMood}
-                    title="Open Mood Tracking Analytics"
-                    aria-label="Mood Tracking Analytics"
+                    onClick={onClearChat}
+                    title="Start a new conversation"
+                    aria-label="Start a new conversation"
                 >
-                    📈
+                    🗑️
                 </button>
 
                 {/* Export PDF Button */}

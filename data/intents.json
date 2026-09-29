@@ -651,7 +651,7 @@
         "I didn't quite catch that — my sensors are calibrated for space and astronomy topics! 🔭 Ask me about the solar system, black holes, Mars missions, or anything cosmic!",
         "My database doesn't have info on that topic! 🛸 I'm CosmosBot — specialized in space, astronomy, and astrophysics. Want to explore something in the universe?"
       ],
-      "suggestions": ["What can you tell me about", "Solar system facts", "Black holes explained", "Fun space facts"]
+      "suggestions": ["What can you tell me about space?", "Solar system facts", "Black holes explained", "Fun space facts"]
     }
   ]
 }

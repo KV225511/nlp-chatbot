@@ -1,27 +1,22 @@
-import React, { useMemo } from 'react';
+import React from 'react';
+
+// Generated once when the module loads, so re-renders never move the stars
+const STARS = Array.from({ length: 70 }, (_, i) => ({
+    id: i,
+    left: `${Math.random() * 100}%`,
+    top: `${Math.random() * 100}%`,
+    size: `${Math.random() * 2.5 + 1}px`,
+    duration: `${Math.random() * 3 + 2}s`,
+    delay: `${Math.random() * 3}s`
+}));
 
 /**
  * Animated twinkling starfield background with randomized stars
  */
 export default function StarsBackground() {
-    const stars = useMemo(() => {
-        const starArray = [];
-        for (let i = 0; i < 70; i++) {
-            starArray.push({
-                id: i,
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                size: `${Math.random() * 2.5 + 1}px`,
-                duration: `${Math.random() * 3 + 2}s`,
-                delay: `${Math.random() * 3}s`
-            });
-        }
-        return starArray;
-    }, []);
-
     return (
         <div className="stars-container" aria-hidden="true">
-            {stars.map((star) => (
+            {STARS.map((star) => (
                 <div
                     key={star.id}
                     className="star"

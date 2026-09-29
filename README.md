@@ -7,7 +7,8 @@ A deep learning-powered, voice-enabled chatbot for space and astronomy education
 - 🎤 **Voice Input** — Speak to the bot using Web Speech API
 - 🔊 **Voice Output** — Bot reads responses aloud
 - 🧠 **Deep Learning** — CNN + BiGRU + Self-Attention architecture
-- 📊 **Confidence Scores** — See how confident the bot is
+- 📊 **Match Scores** — See how closely a question matched the knowledge base
+- 🌍 **Space-only Web Search** — Space questions outside the dataset are answered from Wikipedia, with a source link; non-space questions are politely refused
 - 😊 **Sentiment Analysis** — Real-time mood detection
 - 📈 **Mood Dashboard** — Track sentiment over conversation
 - 💬 **Quick Reply Chips** — Contextual suggestion buttons
@@ -20,7 +21,8 @@ A deep learning-powered, voice-enabled chatbot for space and astronomy education
 
 ## Tech Stack
 
-- **Frontend**: React 18, Vite, Vanilla CSS (Glassmorphism), Chart.js, jsPDF
+- **Frontend**: React 19, Vite, Vanilla CSS (Glassmorphism), Chart.js, jsPDF
+- **Web Search**: Wikipedia REST API + DuckDuckGo Instant Answer API (no API key needed)
 - **Backend**: Python Flask, Gunicorn
 - **ML/DL**: TensorFlow/Keras (CNN + BiGRU + Multi-Head Self-Attention)
 - **NLP**: NLTK, VADER Sentiment, Googletrans
@@ -51,12 +53,28 @@ npm run build    # Builds production React bundle to frontend/dist
 ```
 When running `python backend/app.py`, Flask automatically serves the production React build from `frontend/dist` on `http://localhost:5000`!
 
+### 3. Smoke Test
+```bash
+python tests/smoke_test.py   # needs internet for the web search checks
+```
+
+### Configuration
+| Variable | Default | Meaning |
+|---|---|---|
+| `WEB_SEARCH_ENABLED` | `true` | Set to `false` to disable the web search fallback |
+| `WEB_SEARCH_TIMEOUT` | `6` | Seconds per web request |
+
 ## Architecture
 
 ```
 Input → Embedding → [Conv1D(k=2) || Conv1D(k=3) || Conv1D(k=4)] → Concat
-→ BiGRU → MultiHeadAttention (4 heads) → GlobalAvgPool → Dense → Softmax
+→ BiGRU (masked) → MultiHeadAttention (4 heads, masked) → Masked GlobalAvgPool → Dense → Softmax
 ```
+
+**Answer routing:** the network's intent must agree with a TF-IDF nearest-pattern match
+(similarity ≥ 0.65) for a knowledge-base answer. Otherwise CosmosBot searches Wikipedia
+(then DuckDuckGo). The result is used only if it is about space or astronomy (keyword check); then it answers with a
+source link. Non-space topics get an "outside my orbit" reply.
 
 ## License
 

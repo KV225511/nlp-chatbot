@@ -1,15 +1,15 @@
-import { jsPDF } from 'jspdf';
-
 /**
  * Export conversation history and mood analytics to PDF
  */
-export function exportChatToPDF(messages, moodHistory) {
+export async function exportChatToPDF(messages, moodHistory) {
     if (!messages || messages.length === 0) {
         alert('No messages to export yet. Start chatting first!');
         return;
     }
 
     try {
+        // Loaded on demand so the PDF library is not part of the initial page load
+        const { jsPDF } = await import('jspdf');
         const doc = new jsPDF();
         let yPos = 22;
         const margin = 16;
@@ -53,12 +53,19 @@ export function exportChatToPDF(messages, moodHistory) {
             doc.setTextColor(isUser ? 79 : 99, isUser ? 70 : 102, isUser ? 229 : 241);
             doc.text(`${icon} ${msg.timestamp || ''}`, margin, yPos);
 
-            if (!isUser && msg.confidence !== undefined) {
+            if (!isUser && msg.source === 'knowledge_base' && typeof msg.confidence === 'number') {
                 const confPercent = Math.round(msg.confidence * 100);
                 doc.setFont('helvetica', 'normal');
                 doc.setFontSize(8.5);
                 doc.setTextColor(130, 130, 160);
-                doc.text(`(Intent: ${msg.intent || 'unknown'} - ${confPercent}% confidence)`, margin + 55, yPos);
+                doc.text(`(Knowledge base: ${msg.intent || 'unknown'} - ${confPercent}% match)`, margin + 55, yPos);
+            }
+
+            if (!isUser && msg.source === 'web') {
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(8.5);
+                doc.setTextColor(130, 130, 160);
+                doc.text('(Answered from the web)', margin + 55, yPos);
             }
 
             if (isUser && msg.sentiment) {
@@ -86,6 +93,17 @@ export function exportChatToPDF(messages, moodHistory) {
                     yPos = 20;
                 }
                 doc.text(line, margin, yPos);
+                yPos += 5;
+            });
+
+            (msg.sources || []).forEach((item) => {
+                if (yPos > 275) {
+                    doc.addPage();
+                    yPos = 20;
+                }
+                doc.setFontSize(8.5);
+                doc.setTextColor(99, 102, 241);
+                doc.textWithLink(`Source: ${item.provider} - ${item.title}`, margin, yPos, { url: item.url });
                 yPos += 5;
             });
 

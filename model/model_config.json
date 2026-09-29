@@ -1,6 +1,6 @@
 {
   "max_len": 25,
-  "vocab_size": 475,
+  "vocab_size": 481,
   "num_classes": 38,
   "embed_dim": 128,
   "classes": [

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import './App.css';
 
 import StarsBackground from './components/StarsBackground';
@@ -7,18 +7,20 @@ import MessageItem from './components/MessageItem';
 import TypingIndicator from './components/TypingIndicator';
 import SuggestionChips from './components/SuggestionChips';
 import InputArea from './components/InputArea';
-import MoodModal from './components/MoodModal';
 import BreathingModal from './components/BreathingModal';
 
 import { soundService } from './services/soundService';
 import { speechService } from './services/speechService';
 import { exportChatToPDF } from './services/exportService';
 
+// Chart.js is only needed when the mood dashboard is opened
+const MoodModal = lazy(() => import('./components/MoodModal'));
+
 const INITIAL_SUGGESTIONS = [
     'Tell me about black holes',
     'Solar system facts',
     'How do rockets work',
-    'James Webb Telescope',
+    'What is ISRO?',
     'Fun space facts'
 ];
 
@@ -30,9 +32,19 @@ function getFormattedTime() {
     return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
 
+function createWelcomeMessage() {
+    return {
+        id: 'welcome-msg',
+        sender: 'bot',
+        text: "Welcome, Space Explorer! 🌌 I am CosmosBot, your AI guide to the universe powered by Deep Learning (CNN + BiGRU + Self-Attention). Ask me about black holes, rockets, planets, or telescopes — and if something isn't in my database, I'll search the web for you!",
+        timestamp: getFormattedTime(),
+        source: 'welcome'
+    };
+}
+
 export default function App() {
     // Session ID
-    const [sessionId] = useState(() => {
+    const [sessionId, setSessionId] = useState(() => {
         const stored = sessionStorage.getItem('cosmos_session_id');
         if (stored) return stored;
         const newId = generateSessionId();
@@ -59,16 +71,7 @@ export default function App() {
     const [isBreathingModalOpen, setIsBreathingModalOpen] = useState(false);
 
     // Chat state
-    const [messages, setMessages] = useState([
-        {
-            id: 'welcome-msg',
-            sender: 'bot',
-            text: "Welcome, Space Explorer! 🌌 I am CosmosBot, your AI guide to the universe powered by Deep Learning (CNN + BiGRU + Self-Attention). Ask me about black holes, rockets, planets, or telescopes!",
-            timestamp: getFormattedTime(),
-            confidence: 1.0,
-            intent: 'greeting'
-        }
-    ]);
+    const [messages, setMessages] = useState(() => [createWelcomeMessage()]);
     const [isTyping, setIsTyping] = useState(false);
     const [suggestions, setSuggestions] = useState(INITIAL_SUGGESTIONS);
     const [isListening, setIsListening] = useState(false);
@@ -109,6 +112,21 @@ export default function App() {
         soundService.play('click');
     };
 
+    const handleClearChat = () => {
+        if (isTyping) return;
+        soundService.play('click');
+        speechService.stopListening();
+        window.speechSynthesis?.cancel();
+
+        const newId = generateSessionId();
+        sessionStorage.setItem('cosmos_session_id', newId);
+        setSessionId(newId);
+        setMessages([createWelcomeMessage()]);
+        setSuggestions(INITIAL_SUGGESTIONS);
+        setMoodHistory([]);
+        setCurrentMood({ compound: 0, emoji: '😐', label: 'neutral' });
+    };
+
     const handleSendMessage = async (text) => {
         if (!text.trim() || isTyping) return;
 
@@ -143,8 +161,10 @@ export default function App() {
 
             const data = await res.json();
 
-            // Simulate realistic neural typing delay
-            await new Promise((r) => setTimeout(r, Math.min(500 + data.response.length * 4, 1300)));
+            // Short "thinking" pause for instant dataset answers (web answers are already slow)
+            if (data.source !== 'web') {
+                await new Promise((r) => setTimeout(r, Math.min(400 + data.response.length * 2, 900)));
+            }
 
             // Update user message sentiment in place
             if (data.sentiment) {
@@ -162,16 +182,17 @@ export default function App() {
                 text: data.response,
                 timestamp: getFormattedTime(),
                 confidence: data.confidence,
-                intent: data.intent
+                intent: data.intent,
+                source: data.source,
+                sources: data.sources || []
             };
 
             setMessages((prev) => [...prev, botMsg]);
             soundService.play('receive');
 
-            // Update dynamic suggestions (regular + context-aware)
+            // Update dynamic suggestions (regular + context-aware), without duplicates
             const combinedSuggestions = [
-                ...(data.suggestions || []),
-                ...(data.context_suggestions || [])
+                ...new Set([...(data.suggestions || []), ...(data.context_suggestions || [])])
             ];
             if (combinedSuggestions.length > 0) {
                 setSuggestions(combinedSuggestions);
@@ -194,13 +215,21 @@ export default function App() {
                 sender: 'bot',
                 text: "Mission control warning: Could not communicate with server. Please ensure the backend is running and try again! 🛸",
                 timestamp: getFormattedTime(),
-                confidence: 0,
-                intent: 'error'
+                source: 'error',
+                isError: true,
+                retryText: text,
+                failedMessageId: userMsg.id
             };
             setMessages((prev) => [...prev, errorMsg]);
         } finally {
             setIsTyping(false);
         }
+    };
+
+    const handleRetry = (errorMsg) => {
+        // Remove the failed question and the error, then ask again
+        setMessages((prev) => prev.filter((m) => m.id !== errorMsg.id && m.id !== errorMsg.failedMessageId));
+        handleSendMessage(errorMsg.retryText);
     };
 
     const handleToggleListen = () => {
@@ -258,17 +287,19 @@ export default function App() {
                         setIsMoodModalOpen(true);
                     }}
                     onExportPDF={handleExportPDF}
+                    onClearChat={handleClearChat}
                     language={language}
                     onChangeLanguage={handleChangeLanguage}
                     currentMood={currentMood}
                 />
 
-                <main className="messages-scroll-container">
+                <main className="messages-scroll-container" role="log" aria-live="polite" aria-label="Conversation">
                     {messages.map((msg) => (
                         <MessageItem
                             key={msg.id}
                             message={msg}
                             onSpeak={msg.sender === 'bot' ? handleSpeakMessage : null}
+                            onRetry={handleRetry}
                         />
                     ))}
 
@@ -293,12 +324,16 @@ export default function App() {
                 />
             </div>
 
-            <MoodModal
-                isOpen={isMoodModalOpen}
-                onClose={() => setIsMoodModalOpen(false)}
-                moodHistory={moodHistory}
-                theme={theme}
-            />
+            {isMoodModalOpen && (
+                <Suspense fallback={null}>
+                    <MoodModal
+                        isOpen={isMoodModalOpen}
+                        onClose={() => setIsMoodModalOpen(false)}
+                        moodHistory={moodHistory}
+                        theme={theme}
+                    />
+                </Suspense>
+            )}
 
             <BreathingModal
                 isOpen={isBreathingModalOpen}

@@ -72,7 +72,7 @@ class SoundService {
 
             osc.start(this.audioCtx.currentTime);
             osc.stop(this.audioCtx.currentTime + duration);
-        } catch (e) {
+        } catch {
             // Audio context safely ignored
         }
     }

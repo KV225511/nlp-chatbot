@@ -130,7 +130,7 @@ class ContextManager:
         history = self.sessions.get(session_id, [])
         intents = [
             msg['intent'] for msg in history 
-            if msg.get('intent') and msg['intent'] not in ('greeting', 'goodbye', 'thanks', 'about_bot', 'fallback', 'breathing_exercise')
+            if msg.get('intent') and msg['intent'] not in ('greeting', 'goodbye', 'thanks', 'about_bot', 'fallback', 'breathing_exercise', 'web_search')
         ]
         return intents[-n:]
     

@@ -57,6 +57,12 @@ The text preprocessing pipeline (`model/preprocessing.py`) prepares raw user spe
 4. **Categorical Label Encoding:**
    - Target intent tags are mapped to one-hot vectors using Scikit-Learn `LabelEncoder` and Keras `to_categorical`.
 
+5. **Data Augmentation:**
+   - Every topic pattern gets up to four extra phrasings built from carrier phrases (e.g. *"tell me about … please"*), teaching the model that such words do not change the intent. Small-talk intents are not augmented.
+
+6. **Padding Masks:**
+   - A boolean mask (token id ≠ 0) is passed to the BiGRU, the Multi-Head Attention layer and the Global Average Pooling layer, so padding never influences the prediction and short and long questions are scored consistently.
+
 ---
 
 ## 4. Model Architecture & Deep Learning Methodology
@@ -155,7 +161,7 @@ $$\text{Input} \longrightarrow \text{Embedding} \longrightarrow \text{Parallel 1
 | Feature ID | Feature Name | Technical Description |
 |---|---|---|
 | **A1** | **Voice Output (TTS)** | Implemented via Web Speech API `SpeechSynthesis`. Dynamic speech queue with customizable pitch, speed, and auto-voice selection matching target language. |
-| **A2** | **Confidence Scoring** | Softmax probability output of the top intent is displayed visually as an animated percentage bar with color-coded confidence thresholds ($>80\%$ green, $50-80\%$ orange, $<50\%$ red). |
+| **A2** | **Match Scoring** | The displayed score is `min(softmax probability, TF-IDF similarity to the closest dataset pattern)`, shown as a colour-coded bar with a label (≥ 85% strong, ≥ 65% good, otherwise partial). |
 | **A3** | **Quick Reply Chips** | Dynamically rendered button chips offering contextual follow-up questions linked to the predicted space topic. |
 | **A4** | **Dark / Light Mode** | Modern CSS custom property theming persisted in `localStorage` with smooth transition interpolation. |
 | **B1** | **Sentiment Analysis** | Real-time sentiment classification using VADER (Valence Aware Dictionary and sEntiment Reasoner), extracting valence scores and sentiment emojis. |
@@ -164,6 +170,7 @@ $$\text{Input} \longrightarrow \text{Embedding} \longrightarrow \text{Parallel 1
 | **B4** | **PDF Export** | Client-side PDF generation using `jsPDF`, formatting transcript timestamps, user queries, bot replies, confidence levels, and sentiment summaries. |
 | **B5** | **Context Follow-ups** | In-memory session tracking module (`ContextManager`) mapping semantic connections between topics (e.g., *Black Holes* $\rightarrow$ *Neutron Stars* or *General Relativity*). |
 | **B6** | **Multi-Language** | Translation pipeline supporting 12 international and regional languages (English, Hindi, Tamil, Telugu, Spanish, French, German, Japanese, Korean, Chinese, etc.). |
+| **B7** | **Web Search Fallback** | Questions the dataset does not cover (network and TF-IDF disagree, or similarity < 0.65) are looked up in the Wikipedia search and summary APIs, with DuckDuckGo Instant Answers as a backup. A result is accepted only if it is about space or astronomy (keyword filter) and is shown with its source link. Non-space topics are refused, and small talk is never searched. |
 | **C1** | **Typing Animation** | Realistic delayed character typing effect with pulsing ellipsis indicators. |
 | **C2** | **Glassmorphism UI** | Multi-layer frosted glass effects using CSS `backdrop-filter: blur(16px)`, translucent radial gradients, and animated starfield backgrounds. |
 | **C3** | **Responsive Design** | Mobile-first flexbox and grid layouts adaptable to smartphones, tablets, and widescreen desktop monitors. |
@@ -185,35 +192,36 @@ CosmosBot is packaged for instant deployment to cloud platforms (such as Render,
 
 ### 7.1 Quantitative Performance Metrics
 
-The hybrid CNN + BiGRU + Multi-Head Self-Attention model was trained with dynamic learning rate reduction (`ReduceLROnPlateau`) and early stopping (`EarlyStopping`, patience = 30 epochs) restoring best model weights from epoch 20:
+Training runs in two phases. **Phase 1 (evaluation):** the 454 original patterns are split 80/20 (stratified); only the 80% part is augmented, and the model is trained with `ReduceLROnPlateau` and `EarlyStopping` (patience 30, best weights restored) and evaluated on the untouched 20%. **Phase 2 (final model):** a fresh model is trained on 100% of the augmented patterns, stopping when training loss plateaus, so every pattern in `intents.json` is learned.
 
 | Metric | Measured Value |
 |---|---|
-| **Total Model Parameters** | 328,102 (327,718 trainable) |
-| **Model Disk Footprint** | ~1.25 MB (Float32 weights) |
+| **Total Model Parameters** | 328,870 |
 | **Target Intent Classes** | 38 categories |
-| **Vocabulary Size** | 475 unique tokens |
+| **Vocabulary Size** | 481 unique tokens |
+| **Original / Augmented Training Samples** | 454 / 1447 |
 | **Maximum Sequence Length** | 25 tokens |
-| **Training Epochs Completed** | 50 (Early stopped at optimal checkpoint) |
+| **Final-model Epochs** | 43 |
 | **Initial Learning Rate** | 0.001 (Adam Optimizer) |
-| **Final Adapted Learning Rate** | 0.000125 |
-| **Training Accuracy** | **86.78%** |
-| **Validation Accuracy (Best Checkpoint)** | **51.65%** |
-| **Training Loss** | 0.5547 |
-| **Validation Loss** | 2.2709 |
+| **Held-out Validation Accuracy (Phase 1)** | **57.14%** (was 51.65% before padding masks and augmentation) |
+| **Held-out Validation Loss (Phase 1)** | 2.2378 |
+| **Final Training Accuracy (Phase 2)** | **99.45%** |
+| **Final Training Loss (Phase 2)** | 0.0100 |
 
-*Note: For a 38-class classification task where random baseline chance is only $1/38 \approx 2.63\%$, achieving $>51\%$ validation accuracy with a small dataset reflects strong generalization capability across complex linguistic variations.*
+*Note: held-out accuracy measures phrasings the model has never seen, with only ~12 patterns per intent. At answer time, a TF-IDF similarity check decides whether a question is covered at all; uncovered questions go to web search instead of being forced into one of the 38 intents.*
 
 ### 7.2 Sample Inference Evaluations
 
-| User Query | Actual Target Intent | Predicted Intent | Model Confidence | Response Status |
-|---|---|---|---|---|
-| *"Tell me about black holes"* | `black_holes` | `black_holes` | **88.96%** | Correct |
-| *"How do rockets work"* | `rocket_science` | `rocket_science` | **79.51%** | Correct |
-| *"What is the speed of light"* | `light_speed` | `light_speed` | **44.46%** | Correct |
-| *"Hello"* | `greeting` | `greeting` | **49.03%** | Correct |
-| *"Thanks for the info"* | `thanks` | `thanks` | **90.42%** | Correct |
-| *"asdkjhfaskjdfh"* (Gibberish) | OOV / Unseen | `fallback` | **0.00%** | Filtered by Threshold |
+| User Query | Route | Result Intent / Source | Match Score |
+|---|---|---|---|
+| *"Tell me about black holes"* | Knowledge base | `black_holes` | **100%** |
+| *"Tell me about Apollo 11"* | Knowledge base | `space_exploration_history` | **81%** |
+| *"What is the speed of light"* | Knowledge base | `light_speed` | **100%** |
+| *"Hello"* | Knowledge base | `greeting` | **100%** |
+| *"What is ISRO?"* | Web search | Wikipedia: ISRO | n/a (source link shown) |
+| *"What is Chandrayaan 3"* | Web search | Wikipedia: Chandrayaan-3 | n/a (source link shown) |
+| *"What is the capital of France"* | Refused (not space) | `fallback` ("outside my orbit") | 0% |
+| *"asdkjhfaskjdfh"* (Gibberish) | Fallback | `fallback` ("I don't know") | 0% |
 
 ---
 

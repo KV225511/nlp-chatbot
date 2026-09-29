@@ -30,6 +30,7 @@ from backend.chatbot_engine import ChatbotEngine
 from backend.sentiment_analyzer import SentimentAnalyzer
 from backend.context_manager import ContextManager
 from backend.translation_service import TranslationService
+from backend.web_search import WebSearchService
 
 
 # ============================================
@@ -55,8 +56,25 @@ chatbot = ChatbotEngine()
 sentiment = SentimentAnalyzer()
 context = ContextManager()
 translator = TranslationService()
+web_search = WebSearchService()
 
 print("✅ All services initialized!")
+
+
+def build_web_prediction(web_result):
+    """Turn a web search result into the same shape as a model prediction."""
+    return {
+        'intent': 'web_search',
+        'response': (
+            f"I didn't have that in my space database, so I searched {web_result['provider']}: "
+            f"{web_result['answer']}"
+        ),
+        'confidence': None,
+        'suggestions': [f"More about {web_result['title']}", 'Fun space facts', 'Solar system facts'],
+        'top_predictions': [],
+        'is_fallback': False,
+        'sources': [{'title': web_result['title'], 'url': web_result['url'], 'provider': web_result['provider']}]
+    }
 
 
 # ============================================
@@ -99,7 +117,9 @@ def chat():
             "context_suggestions": [...],
             "mood_history": [...],
             "is_fallback": false,
-            "trigger_breathing": false
+            "trigger_breathing": false,
+            "source": "knowledge_base" | "web" | "off_topic" | "fallback",
+            "sources": [{ "title": "...", "url": "...", "provider": "Wikipedia" }]
         }
     """
     data = request.get_json()
@@ -125,6 +145,21 @@ def chat():
     
     # Step 3: Predict intent and get response
     prediction = chatbot.predict_intent(message)
+    source = 'knowledge_base'
+
+    # Step 3b: Not covered by the dataset -> search the web
+    if not prediction['is_known']:
+        web_result = web_search.search(message)
+        if web_result and web_result.get('off_topic'):
+            # Something was found online, but it is not about space: stay on topic
+            if prediction['is_fallback'] or not prediction['is_weak_match']:
+                prediction = chatbot.off_topic_response()
+                source = 'off_topic'
+        elif web_result:
+            prediction = build_web_prediction(web_result)
+            source = 'web'
+        elif prediction['is_fallback']:
+            source = 'fallback'
     
     # Step 4: Track context
     context.add_message(session_id, 'user', original_message, 
@@ -159,7 +194,9 @@ def chat():
         'top_predictions': prediction.get('top_predictions', []),
         'is_fallback': prediction['is_fallback'],
         'trigger_breathing': trigger_breathing,
-        'session_id': session_id
+        'session_id': session_id,
+        'source': source,
+        'sources': prediction.get('sources', [])
     })
 
 
@@ -190,7 +227,8 @@ def health_check():
         'status': 'healthy',
         'service': 'CosmosBot',
         'version': '1.0.0',
-        'model_loaded': chatbot.model is not None
+        'model_loaded': chatbot.model is not None,
+        'web_search_enabled': web_search.enabled
     })
 
 

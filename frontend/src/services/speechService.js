@@ -86,7 +86,7 @@ class SpeechService {
         if (this.recognitionSupported && this.recognition) {
             try {
                 this.recognition.stop();
-            } catch (e) {
+            } catch {
                 // Ignore stop error
             }
         }

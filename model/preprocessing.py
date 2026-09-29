@@ -1,13 +1,11 @@
 """
 Text preprocessing utilities for the CosmosBot chatbot.
-Handles tokenization, lemmatization, vocabulary building, and sequence padding.
+Handles cleaning, lemmatization, data augmentation, vocabulary building and padding.
 """
 
 import json
+import random
 import re
-import string
-import pickle
-import numpy as np
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from sklearn.preprocessing import LabelEncoder
@@ -22,15 +20,36 @@ try:
 except ImportError:
     NLTK_AVAILABLE = False
 
+_NLTK_READY = False
+_LEMMATIZER = None
+
+# Intents that are small talk, not topics: they are never augmented with topic prefixes
+CONVERSATIONAL_TAGS = {'greeting', 'goodbye', 'thanks', 'about_bot', 'breathing_exercise'}
+
+# Phrases users put around a topic ("tell me about X please")
+AUGMENT_PREFIXES = [
+    "tell me about", "what is", "what are", "explain", "can you explain",
+    "i want to know about", "give me info on", "do you know about", "describe"
+]
+AUGMENT_SUFFIXES = ["", "please", "in simple words"]
+QUESTION_STARTS = (
+    "what", "how", "why", "who", "when", "where", "is ", "are ", "can ",
+    "do ", "does ", "tell", "explain"
+)
+
 
 def ensure_nltk_data():
-    """Download required NLTK data if not present."""
-    if NLTK_AVAILABLE:
-        for resource in ['punkt', 'punkt_tab', 'wordnet', 'omw-1.4']:
-            try:
-                nltk.data.find(f'tokenizers/{resource}' if 'punkt' in resource else f'corpora/{resource}')
-            except LookupError:
-                nltk.download(resource, quiet=True)
+    """Download required NLTK data once per process."""
+    global _NLTK_READY, _LEMMATIZER
+    if _NLTK_READY or not NLTK_AVAILABLE:
+        return
+    for resource in ['punkt', 'punkt_tab', 'wordnet', 'omw-1.4']:
+        try:
+            nltk.data.find(f'tokenizers/{resource}' if 'punkt' in resource else f'corpora/{resource}')
+        except LookupError:
+            nltk.download(resource, quiet=True)
+    _LEMMATIZER = WordNetLemmatizer()
+    _NLTK_READY = True
 
 
 def clean_text(text):
@@ -49,12 +68,11 @@ def clean_text(text):
 
     if NLTK_AVAILABLE:
         ensure_nltk_data()
-        lemmatizer = WordNetLemmatizer()
         try:
             tokens = word_tokenize(text)
         except Exception:
             tokens = text.split()
-        tokens = [lemmatizer.lemmatize(word) for word in tokens]
+        tokens = [_LEMMATIZER.lemmatize(word) for word in tokens]
         text = ' '.join(tokens)
 
     return text
@@ -67,57 +85,83 @@ def load_intents(intents_path):
     return data
 
 
-def prepare_training_data(intents_path, max_len=25):
-    """
-    Prepare training data from intents.json.
-    
-    Returns:
-        X_padded: Padded token sequences (numpy array)
-        y_encoded: One-hot encoded labels (numpy array)
-        tokenizer: Fitted Keras Tokenizer
-        label_encoder: Fitted LabelEncoder
-        max_len: Maximum sequence length used
-        classes: List of intent classes
-    """
+def load_patterns(intents_path):
+    """Return a list of (pattern, tag) pairs for every intent that has patterns."""
     data = load_intents(intents_path)
-    
-    texts = []
-    labels = []
-    
-    for intent in data['intents']:
-        tag = intent['tag']
-        for pattern in intent['patterns']:
-            cleaned = clean_text(pattern)
-            if cleaned:  # Skip empty patterns
+    return [
+        (pattern, intent['tag'])
+        for intent in data['intents']
+        for pattern in intent['patterns']
+    ]
+
+
+def augment_pattern(pattern, tag, rng, copies=4):
+    """
+    Create extra phrasings of a topic pattern so the model learns that
+    words like "tell me about" or "please" do not change the intent.
+    Small-talk intents and patterns that are already full questions get
+    at most one extra variant.
+    """
+    variants = [pattern]
+    if tag in CONVERSATIONAL_TAGS:
+        return variants
+
+    lowered = pattern.lower()
+    if lowered.startswith(QUESTION_STARTS):
+        variants.append(f"{pattern} {rng.choice(AUGMENT_SUFFIXES[1:])}")
+    else:
+        for _ in range(copies):
+            prefix = rng.choice(AUGMENT_PREFIXES)
+            suffix = rng.choice(AUGMENT_SUFFIXES)
+            variants.append(f"{prefix} {pattern} {suffix}".strip())
+
+    return list(dict.fromkeys(variants))
+
+
+def build_training_texts(pairs, augment=True, seed=42):
+    """
+    Turn (pattern, tag) pairs into cleaned training texts and labels.
+
+    Returns:
+        texts: list of cleaned strings
+        tags: list of intent tags (same length as texts)
+    """
+    rng = random.Random(seed)
+    texts, tags = [], []
+    for pattern, tag in pairs:
+        variants = augment_pattern(pattern, tag, rng) if augment else [pattern]
+        for variant in variants:
+            cleaned = clean_text(variant)
+            if cleaned:
                 texts.append(cleaned)
-                labels.append(tag)
-    
-    print(f"Total training samples: {len(texts)}")
-    print(f"Number of intents: {len(set(labels))}")
-    
-    # Tokenize texts
+                tags.append(tag)
+    return texts, tags
+
+
+def fit_tokenizer(texts):
+    """Fit a Keras tokenizer (with an <OOV> token) on cleaned texts."""
     tokenizer = Tokenizer(oov_token='<OOV>')
     tokenizer.fit_on_texts(texts)
+    return tokenizer
+
+
+def encode_texts(texts, tokenizer, max_len=25):
+    """Convert cleaned texts to padded integer sequences."""
     sequences = tokenizer.texts_to_sequences(texts)
-    
-    vocab_size = len(tokenizer.word_index) + 1
-    print(f"Vocabulary size: {vocab_size}")
-    
-    # Pad sequences
-    X_padded = pad_sequences(sequences, maxlen=max_len, padding='post', truncating='post')
-    
-    # Encode labels
+    return pad_sequences(sequences, maxlen=max_len, padding='post', truncating='post')
+
+
+def fit_label_encoder(tags):
+    """Fit a LabelEncoder on intent tags."""
     label_encoder = LabelEncoder()
-    y_int = label_encoder.fit_transform(labels)
-    
+    label_encoder.fit(tags)
+    return label_encoder
+
+
+def encode_labels(tags, label_encoder):
+    """One-hot encode intent tags."""
     num_classes = len(label_encoder.classes_)
-    y_encoded = to_categorical(y_int, num_classes=num_classes)
-    
-    print(f"Classes: {list(label_encoder.classes_)}")
-    print(f"Input shape: {X_padded.shape}")
-    print(f"Output shape: {y_encoded.shape}")
-    
-    return X_padded, y_encoded, tokenizer, label_encoder, max_len, list(label_encoder.classes_)
+    return to_categorical(label_encoder.transform(tags), num_classes=num_classes)
 
 
 def text_to_sequence(text, tokenizer, max_len=25):
@@ -125,17 +169,14 @@ def text_to_sequence(text, tokenizer, max_len=25):
     Convert a single text input to a padded sequence.
     Used during inference.
     """
-    cleaned = clean_text(text)
-    seq = tokenizer.texts_to_sequences([cleaned])
-    padded = pad_sequences(seq, maxlen=max_len, padding='post', truncating='post')
-    return padded
+    return encode_texts([clean_text(text)], tokenizer, max_len)
 
 
 if __name__ == '__main__':
-    # Test preprocessing
     import os
     intents_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'intents.json')
-    X, y, tok, le, ml, classes = prepare_training_data(intents_path)
-    print("\nPreprocessing test successful!")
-    print(f"Sample input (first pattern): {X[0]}")
-    print(f"Sample label (first pattern): {y[0]}")
+    pairs = load_patterns(intents_path)
+    texts, tags = build_training_texts(pairs)
+    print(f"Original patterns: {len(pairs)}")
+    print(f"Augmented training texts: {len(texts)}")
+    print(f"Sample: {texts[:5]}")
