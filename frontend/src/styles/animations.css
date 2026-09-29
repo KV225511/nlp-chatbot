@@ -1,0 +1,104 @@
+/* ============================================
+   Animations — CosmosBot
+   ============================================ */
+
+/* Message fade in from bottom */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(14px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Typing bounce animation */
+@keyframes typingBounce {
+    0%, 60%, 100% {
+        transform: translateY(0);
+        opacity: 0.4;
+    }
+    30% {
+        transform: translateY(-8px);
+        opacity: 1;
+    }
+}
+
+/* Pulse animation for active mic */
+@keyframes micPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 16px rgba(236, 72, 153, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(236, 72, 153, 0);
+    }
+}
+
+/* Status dot pulse */
+@keyframes statusPulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.5;
+        transform: scale(0.85);
+    }
+}
+
+/* Modal scale-in */
+@keyframes modalIn {
+    from {
+        opacity: 0;
+        transform: scale(0.92) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Backdrop fade */
+@keyframes overlayFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Glowing stars twinkle */
+@keyframes twinkle {
+    0%, 100% {
+        opacity: 0.2;
+    }
+    50% {
+        opacity: 0.9;
+    }
+}
+
+/* Subtle float animation for header avatar */
+@keyframes floatSlow {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-5px) rotate(4deg);
+    }
+}
+
+/* Sentiment icon bounce on change */
+@keyframes bounceSmall {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.35) rotate(-6deg);
+    }
+}
+
+.bounce-active {
+    animation: bounceSmall 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
