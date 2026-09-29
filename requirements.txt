@@ -1,0 +1,9 @@
+flask==3.1.0
+flask-cors==5.0.1
+tensorflow-cpu
+numpy
+scikit-learn
+nltk
+vaderSentiment
+googletrans==4.0.0rc1
+gunicorn
