@@ -15,12 +15,18 @@ if hasattr(sys.stderr, 'reconfigure'):
     sys.stderr.reconfigure(encoding='utf-8', errors='replace')
 
 import os
-os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
+os.environ["TF_NUM_INTEROP_THREADS"] = "1"
+os.environ["TF_NUM_INTRAOP_THREADS"] = "1"
+os.environ["MALLOC_TRIM_THRESHOLD_"] = "100000"
+os.environ["MALLOC_ARENA_MAX"] = "2"
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 import json
 import pickle
 import random
+import gc
 import numpy as np
 import tensorflow as tf
 
@@ -91,6 +97,14 @@ class ChatbotEngine:
         self.intent_map = {intent['tag']: intent for intent in self.intents_data['intents']}
         self.matcher = IntentMatcher(self.intents_data)
 
+        # Warm up graph once so memory is pre-allocated and compiled at startup
+        dummy = np.zeros((1, self.max_len), dtype=np.int32)
+        try:
+            self.model(dummy, training=False)
+        except Exception:
+            pass
+        gc.collect()
+
         print("✅ ChatbotEngine loaded successfully!")
         print(f"   Model: {self.config.get('num_classes', '?')} intents, vocab_size={self.config.get('vocab_size', '?')}")
 
@@ -109,7 +123,8 @@ class ChatbotEngine:
             return self._fallback_response()
 
         padded = pad_sequences(seq, maxlen=self.max_len, padding='post', truncating='post')
-        pred = self.model.predict(padded, verbose=0)[0]
+        # Direct call: avoids Python-level dataset generator and saves ~30MB RAM
+        pred = self.model(padded, training=False).numpy()[0]
 
         intent_idx = int(np.argmax(pred))
         nn_confidence = float(pred[intent_idx])

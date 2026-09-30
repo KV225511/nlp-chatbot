@@ -16,7 +16,7 @@ from urllib.parse import quote
 
 import requests
 
-USER_AGENT = 'CosmosBot/1.0 (educational space chatbot; https://github.com/)'
+USER_AGENT = 'CosmosBot/1.0 (https://github.com/kv225511/nlp-chatbot; educational-space-bot)'
 WIKI_API = 'https://en.wikipedia.org/w/api.php'
 WIKI_SUMMARY = 'https://en.wikipedia.org/api/rest_v1/page/summary/'
 DDG_API = 'https://api.duckduckgo.com/'

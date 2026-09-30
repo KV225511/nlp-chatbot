@@ -269,7 +269,8 @@ export default function App() {
                         // User paused or no sound was captured
                         console.log('No speech detected during listening interval.');
                     } else if (error === 'network') {
-                        alert('Speech recognition network error. Please check your internet connection.');
+                        console.warn('Speech recognition network error — Google speech servers unreachable.');
+                        alert('Voice recognition could not connect to the speech service. If you are using Brave or an ad-blocker/firewall, please allow speech services in browser settings, or type your query in the box below!');
                     } else if (error !== 'aborted') {
                         console.warn('Voice transcription error:', error);
                     }

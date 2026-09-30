@@ -4,7 +4,7 @@ services:
     runtime: python
     plan: free
     region: oregon
-    buildCommand: pip install -r requirements.txt && python -c "import nltk; nltk.download('punkt'); nltk.download('punkt_tab'); nltk.download('wordnet'); nltk.download('omw-1.4')"
+    buildCommand: pip install -r requirements.txt
     startCommand: gunicorn backend.app:app --bind 0.0.0.0:$PORT --workers 1 --timeout 120 --graceful-timeout 120
     healthCheckPath: /api/health
     envVars:
@@ -14,3 +14,21 @@ services:
         value: "*"
       - key: FLASK_DEBUG
         value: "false"
+      - key: WEB_CONCURRENCY
+        value: "1"
+      - key: MALLOC_ARENA_MAX
+        value: "2"
+      - key: MALLOC_TRIM_THRESHOLD_
+        value: "100000"
+      - key: TF_ENABLE_ONEDNN_OPTS
+        value: "0"
+      - key: TF_NUM_INTEROP_THREADS
+        value: "1"
+      - key: TF_NUM_INTRAOP_THREADS
+        value: "1"
+      - key: OMP_NUM_THREADS
+        value: "1"
+      - key: OPENBLAS_NUM_THREADS
+        value: "1"
+      - key: MKL_NUM_THREADS
+        value: "1"

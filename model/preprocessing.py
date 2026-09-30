@@ -3,6 +3,7 @@ Text preprocessing utilities for the CosmosBot chatbot.
 Handles cleaning, lemmatization, data augmentation, vocabulary building and padding.
 """
 
+import os
 import json
 import random
 import re
@@ -11,7 +12,7 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 from sklearn.preprocessing import LabelEncoder
 from tensorflow.keras.utils import to_categorical
 
-# Try NLTK imports with fallback
+# Try NLTK imports only if explicitly needed for training
 try:
     import nltk
     from nltk.stem import WordNetLemmatizer
@@ -22,6 +23,16 @@ except ImportError:
 
 _NLTK_READY = False
 _LEMMATIZER = None
+
+# Load precomputed lemma dictionary for zero-RAM fast inference
+_LEMMA_DICT = {}
+_lemma_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'backend', 'lemma_dict.json')
+if os.path.exists(_lemma_path):
+    try:
+        with open(_lemma_path, 'r', encoding='utf-8') as _f:
+            _LEMMA_DICT = json.load(_f)
+    except Exception:
+        pass
 
 # Intents that are small talk, not topics: they are never augmented with topic prefixes
 CONVERSATIONAL_TAGS = {'greeting', 'goodbye', 'thanks', 'about_bot', 'breathing_exercise'}
@@ -39,7 +50,7 @@ QUESTION_STARTS = (
 
 
 def ensure_nltk_data():
-    """Download required NLTK data once per process."""
+    """Optional: Download required NLTK data for offline model training."""
     global _NLTK_READY, _LEMMATIZER
     if _NLTK_READY or not NLTK_AVAILABLE:
         return
@@ -52,30 +63,54 @@ def ensure_nltk_data():
     _NLTK_READY = True
 
 
-def clean_text(text):
+def tokenize_fast(text):
     """
-    Clean and normalize text input.
-    - Lowercase
-    - Remove special characters (keep alphanumeric and spaces)
-    - Remove extra whitespace
-    - Lemmatize words
+    Fast regex-based tokenizer that matches Penn Treebank contractions
+    without loading NLTK into memory.
     """
     text = text.lower().strip()
-    # Remove special characters but keep apostrophes for contractions
     text = re.sub(r"[^a-zA-Z0-9\s']", '', text)
-    # Remove extra whitespace
-    text = re.sub(r'\s+', ' ', text).strip()
+    # Penn Treebank contractions
+    text = re.sub(r"\bcan't\b", "ca n't", text)
+    text = re.sub(r"\bwon't\b", "wo n't", text)
+    text = re.sub(r"\bgotta\b", "got ta", text)
+    text = re.sub(r"\bgonna\b", "gon na", text)
+    text = re.sub(r"n't\b", " n't", text)
+    text = re.sub(r"'s\b", " 's", text)
+    text = re.sub(r"'re\b", " 're", text)
+    text = re.sub(r"'d\b", " 'd", text)
+    text = re.sub(r"'ll\b", " 'll", text)
+    text = re.sub(r"'m\b", " 'm", text)
+    text = re.sub(r"'ve\b", " 've", text)
+    return text.split()
 
-    if NLTK_AVAILABLE:
-        ensure_nltk_data()
-        try:
-            tokens = word_tokenize(text)
-        except Exception:
-            tokens = text.split()
-        tokens = [_LEMMATIZER.lemmatize(word) for word in tokens]
-        text = ' '.join(tokens)
 
-    return text
+def lemmatize_token(token):
+    """Lemmatize a single token using lemma dict with rule fallback."""
+    if token in _LEMMA_DICT:
+        return _LEMMA_DICT[token]
+    if len(token) > 4 and token.endswith('ies'):
+        return token[:-3] + 'y'
+    if len(token) > 3 and token.endswith('es') and not token.endswith(('ses', 'xes', 'ches', 'shes')):
+        return token[:-2]
+    if len(token) > 3 and token.endswith('s') and not token.endswith(('ss', 'us', 'is')):
+        return token[:-1]
+    return token
+
+
+def clean_text(text):
+    """
+    Clean and normalize text input without heavy NLTK overhead.
+    - Lowercase
+    - Remove special characters (keep contractions)
+    - Tokenize with Penn Treebank contraction handling
+    - Lemmatize words
+    """
+    if not text:
+        return ""
+    tokens = tokenize_fast(text)
+    lemmatized = [lemmatize_token(t) for t in tokens]
+    return ' '.join(lemmatized)
 
 
 def load_intents(intents_path):

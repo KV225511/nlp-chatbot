@@ -99,6 +99,8 @@ translator = TranslationService()
 web_search = WebSearchService()
 
 print("✅ All services initialized!")
+import gc
+gc.collect()
 
 
 def build_web_prediction(web_result):
