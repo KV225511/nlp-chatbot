@@ -16,7 +16,7 @@ export default function Header({
         <header className="chat-header glass-panel">
             <div className="header-left">
                 <div className="bot-avatar-header">
-                    <span role="img" aria-label="rocket">🚀</span>
+                    <span role="img" aria-label="planet">🪐</span>
                 </div>
                 <div className="bot-info">
                     <div className="title-row">
