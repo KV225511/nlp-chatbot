@@ -42,6 +42,10 @@ function createWelcomeMessage() {
     };
 }
 
+// In production (e.g. Vercel), VITE_API_URL points to the Render backend service.
+// In local development, leaving it empty uses the Vite dev proxy or same-origin fallback.
+const API_BASE_URL = (import.meta.env.VITE_API_URL || '').replace(/\/+$/, '');
+
 export default function App() {
     // Session ID
     const [sessionId, setSessionId] = useState(() => {
@@ -145,7 +149,7 @@ export default function App() {
         setIsTyping(true);
 
         try {
-            const res = await fetch('/api/chat', {
+            const res = await fetch(`${API_BASE_URL}/api/chat`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -213,7 +217,7 @@ export default function App() {
             const errorMsg = {
                 id: 'err-' + Date.now(),
                 sender: 'bot',
-                text: "Mission control warning: Could not communicate with server. Please ensure the backend is running and try again! 🛸",
+                text: "Mission control warning: Could not communicate with server. (Note: If your Render backend was dormant, it can take ~45 seconds to spin up on first call). Please click retry below! 🛸",
                 timestamp: getFormattedTime(),
                 source: 'error',
                 isError: true,

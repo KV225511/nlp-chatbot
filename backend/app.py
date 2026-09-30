@@ -45,7 +45,41 @@ app = Flask(
     static_folder=static_folder,
     static_url_path=''
 )
-CORS(app)
+# ============================================
+# CORS Configuration
+# ============================================
+# Support specific frontend URLs (e.g. Vercel deployment) or allow all by default
+allowed_origins_raw = os.environ.get('CORS_ORIGINS', os.environ.get('FRONTEND_URL', '*'))
+if allowed_origins_raw.strip() == '*':
+    cors_origins = '*'
+else:
+    cors_origins = [o.strip() for o in allowed_origins_raw.split(',') if o.strip()]
+
+CORS(
+    app,
+    resources={
+        r"/api/*": {
+            "origins": cors_origins,
+            "methods": ["GET", "POST", "OPTIONS"],
+            "allow_headers": ["Content-Type", "Authorization", "Accept", "X-Requested-With"]
+        }
+    }
+)
+
+
+@app.after_request
+def apply_cors_headers(response):
+    """Ensure CORS headers are always attached to API responses, including errors."""
+    if request.path.startswith('/api/'):
+        origin = request.headers.get('Origin')
+        if cors_origins == '*':
+            response.headers['Access-Control-Allow-Origin'] = '*'
+        elif origin and (origin in cors_origins or '*' in cors_origins):
+            response.headers['Access-Control-Allow-Origin'] = origin
+            response.headers['Vary'] = 'Origin'
+        response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, Accept, X-Requested-With'
+        response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+    return response
 
 # ============================================
 # Initialize Backend Services
