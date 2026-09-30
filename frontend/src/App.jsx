@@ -79,6 +79,7 @@ export default function App() {
     const [isTyping, setIsTyping] = useState(false);
     const [suggestions, setSuggestions] = useState(INITIAL_SUGGESTIONS);
     const [isListening, setIsListening] = useState(false);
+    const [interimSpeech, setInterimSpeech] = useState('');
 
     const messagesEndRef = useRef(null);
 
@@ -240,23 +241,42 @@ export default function App() {
         if (isListening) {
             speechService.stopListening();
             setIsListening(false);
+            setInterimSpeech('');
             soundService.play('mic-stop');
         } else {
+            setInterimSpeech('');
             const started = speechService.startListening(language, {
                 onFinal: (transcription) => {
                     setIsListening(false);
+                    setInterimSpeech('');
                     soundService.play('mic-stop');
-                    handleSendMessage(transcription);
+                    if (transcription && transcription.trim()) {
+                        handleSendMessage(transcription.trim());
+                    }
                 },
-                onInterim: () => {},
+                onInterim: (text) => {
+                    setInterimSpeech(text);
+                },
                 onError: (error) => {
                     setIsListening(false);
+                    setInterimSpeech('');
+                    soundService.play('error');
                     if (error === 'not-supported') {
-                        alert('Speech recognition is supported in Chrome, Edge, and Chromium browsers.');
+                        alert('Speech recognition requires Chrome, Edge, or a Chromium browser.');
+                    } else if (error === 'not-allowed' || error === 'permission-denied') {
+                        alert('Microphone access is blocked! Please click the lock or camera icon in your browser address bar and allow microphone permissions for this site.');
+                    } else if (error === 'no-speech') {
+                        // User paused or no sound was captured
+                        console.log('No speech detected during listening interval.');
+                    } else if (error === 'network') {
+                        alert('Speech recognition network error. Please check your internet connection.');
+                    } else if (error !== 'aborted') {
+                        console.warn('Voice transcription error:', error);
                     }
                 },
                 onEnd: () => {
                     setIsListening(false);
+                    setInterimSpeech('');
                 }
             });
 
@@ -320,6 +340,7 @@ export default function App() {
                 <InputArea
                     onSendMessage={handleSendMessage}
                     isListening={isListening}
+                    interimSpeech={interimSpeech}
                     onToggleListen={handleToggleListen}
                     isTTSEnabled={isTTSEnabled}
                     onToggleTTS={handleToggleTTS}

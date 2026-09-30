@@ -5,15 +5,7 @@ class SpeechService {
     constructor() {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         this.recognitionSupported = !!SpeechRecognition;
-        this.recognition = null;
-
-        if (this.recognitionSupported) {
-            this.recognition = new SpeechRecognition();
-            this.recognition.continuous = false;
-            this.recognition.interimResults = true;
-            this.recognition.maxAlternatives = 1;
-        }
-
+        this.currentRecognition = null;
         this.synthesisSupported = 'speechSynthesis' in window;
         this.ttsEnabled = localStorage.getItem('cosmos_tts') !== 'false';
     }
@@ -37,87 +29,111 @@ class SpeechService {
     }
 
     startListening(langCode, callbacks) {
-        if (!this.recognitionSupported || !this.recognition) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SpeechRecognition) {
             callbacks?.onError?.('not-supported');
             return false;
         }
 
-        const locale = this.getLangCode(langCode);
-        this.recognition.lang = locale;
-
-        this.recognition.onresult = (event) => {
-            let interim = '';
-            let final = '';
-
-            for (let i = event.resultIndex; i < event.results.length; i++) {
-                const text = event.results[i][0].transcript;
-                if (event.results[i].isFinal) {
-                    final += text;
-                } else {
-                    interim += text;
-                }
-            }
-
-            if (final) {
-                callbacks?.onFinal?.(final.trim());
-            } else if (interim) {
-                callbacks?.onInterim?.(interim.trim());
-            }
-        };
-
-        this.recognition.onerror = (event) => {
-            callbacks?.onError?.(event.error);
-        };
-
-        this.recognition.onend = () => {
-            callbacks?.onEnd?.();
-        };
+        // Clean up previous instance if still active
+        this.stopListening();
 
         try {
-            this.recognition.start();
+            const recognition = new SpeechRecognition();
+            this.currentRecognition = recognition;
+            recognition.continuous = false;
+            recognition.interimResults = true;
+            recognition.maxAlternatives = 1;
+            recognition.lang = this.getLangCode(langCode);
+
+            let hasResult = false;
+
+            recognition.onresult = (event) => {
+                let interim = '';
+                let final = '';
+
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    const text = event.results[i][0].transcript;
+                    if (event.results[i].isFinal) {
+                        final += text;
+                    } else {
+                        interim += text;
+                    }
+                }
+
+                if (final) {
+                    hasResult = true;
+                    callbacks?.onFinal?.(final.trim());
+                } else if (interim) {
+                    callbacks?.onInterim?.(interim.trim());
+                }
+            };
+
+            recognition.onerror = (event) => {
+                console.warn('SpeechRecognition error:', event.error);
+                // 'no-speech' is non-fatal if user just paused
+                callbacks?.onError?.(event.error);
+            };
+
+            recognition.onend = () => {
+                callbacks?.onEnd?.();
+                this.currentRecognition = null;
+            };
+
+            recognition.start();
             return true;
         } catch (err) {
-            callbacks?.onError?.(err.message);
+            console.error('Failed to start speech recognition:', err);
+            callbacks?.onError?.(err.name || err.message || 'start-failed');
             return false;
         }
     }
 
     stopListening() {
-        if (this.recognitionSupported && this.recognition) {
+        if (this.currentRecognition) {
             try {
-                this.recognition.stop();
+                this.currentRecognition.stop();
             } catch {
-                // Ignore stop error
+                try {
+                    this.currentRecognition.abort();
+                } catch {
+                    // Ignore abort errors
+                }
             }
+            this.currentRecognition = null;
         }
     }
 
     speak(text, langCode = 'en') {
         if (!this.synthesisSupported || !this.ttsEnabled) return;
 
-        window.speechSynthesis.cancel();
+        try {
+            window.speechSynthesis.cancel();
 
-        // Strip markdown/emojis for clean voice synthesis
-        const clean = text
-            .replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '')
-            .replace(/\*\*/g, '')
-            .trim();
+            // Strip markdown and emojis for clean voice synthesis
+            const clean = text
+                .replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '')
+                .replace(/\*\*/g, '')
+                .trim();
 
-        if (!clean) return;
+            if (!clean) return;
 
-        const utterance = new SpeechSynthesisUtterance(clean);
-        const locale = this.getLangCode(langCode);
-        utterance.lang = locale;
-        utterance.rate = 1.0;
-        utterance.pitch = 1.0;
+            const utterance = new SpeechSynthesisUtterance(clean);
+            const locale = this.getLangCode(langCode);
+            utterance.lang = locale;
+            utterance.rate = 1.0;
+            utterance.pitch = 1.0;
 
-        const voices = window.speechSynthesis.getVoices();
-        const preferred = voices.find(v => v.lang.startsWith(locale.split('-')[0]) && (v.name.includes('Natural') || v.name.includes('Google')));
-        if (preferred) {
-            utterance.voice = preferred;
+            const voices = window.speechSynthesis.getVoices();
+            const preferred = voices.find(v => v.lang.startsWith(locale.split('-')[0]) && (v.name.includes('Natural') || v.name.includes('Google')));
+            if (preferred) {
+                utterance.voice = preferred;
+            }
+
+            window.speechSynthesis.speak(utterance);
+        } catch (err) {
+            console.warn('Speech synthesis error:', err);
         }
-
-        window.speechSynthesis.speak(utterance);
     }
 
     toggleTTS() {

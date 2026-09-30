@@ -50,23 +50,29 @@ app = Flask(
 # ============================================
 # CORS Configuration
 # ============================================
-# Support specific frontend URLs (e.g. Vercel deployment) or allow all by default
-allowed_origins_raw = os.environ.get('CORS_ORIGINS', os.environ.get('FRONTEND_URL', '*'))
-if allowed_origins_raw.strip() == '*':
-    cors_origins = '*'
-else:
-    cors_origins = [o.strip() for o in allowed_origins_raw.split(',') if o.strip()]
-
+# Enable full CORS across all API routes
 CORS(
     app,
     resources={
         r"/api/*": {
-            "origins": cors_origins,
-            "methods": ["GET", "POST", "OPTIONS"],
+            "origins": "*",
+            "methods": ["GET", "POST", "OPTIONS", "HEAD"],
             "allow_headers": ["Content-Type", "Authorization", "Accept", "X-Requested-With"]
         }
     }
 )
+
+
+@app.route('/api/<path:path>', methods=['OPTIONS'])
+def api_preflight(path):
+    """Explicitly handle preflight OPTIONS for any API endpoint."""
+    response = app.make_response('')
+    origin = request.headers.get('Origin', '*')
+    response.headers['Access-Control-Allow-Origin'] = origin
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS, HEAD'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, Accept, X-Requested-With'
+    response.headers['Access-Control-Max-Age'] = '86400'
+    return response, 200
 
 
 @app.after_request
@@ -74,13 +80,11 @@ def apply_cors_headers(response):
     """Ensure CORS headers are always attached to API responses, including errors."""
     if request.path.startswith('/api/'):
         origin = request.headers.get('Origin')
-        if cors_origins == '*':
-            response.headers['Access-Control-Allow-Origin'] = '*'
-        elif origin and (origin in cors_origins or '*' in cors_origins):
-            response.headers['Access-Control-Allow-Origin'] = origin
-            response.headers['Vary'] = 'Origin'
+        response.headers['Access-Control-Allow-Origin'] = origin if origin else '*'
         response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, Accept, X-Requested-With'
-        response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+        response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS, HEAD'
+        if origin and origin != '*':
+            response.headers['Vary'] = 'Origin'
     return response
 
 # ============================================

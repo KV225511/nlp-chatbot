@@ -18,6 +18,7 @@ const PLACEHOLDERS = {
 export default function InputArea({
     onSendMessage,
     isListening,
+    interimSpeech,
     onToggleListen,
     isTTSEnabled,
     onToggleTTS,
@@ -62,9 +63,9 @@ export default function InputArea({
                     ref={inputRef}
                     type="text"
                     className="chat-text-input"
-                    value={inputValue}
+                    value={isListening && interimSpeech ? interimSpeech : inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
-                    placeholder={isListening ? 'Listening to your voice...' : placeholderText}
+                    placeholder={isListening ? 'Listening to your voice... Speak now' : placeholderText}
                     maxLength={500}
                     autoComplete="off"
                     aria-label="Type your question"
@@ -85,7 +86,7 @@ export default function InputArea({
                 <button
                     type="submit"
                     className="send-button"
-                    disabled={!inputValue.trim() || disabled}
+                    disabled={(!inputValue.trim() && !interimSpeech) || disabled}
                     title="Send message"
                     aria-label="Send message"
                 >
@@ -100,7 +101,7 @@ export default function InputArea({
             {isListening && (
                 <div className="listening-banner">
                     <span className="pulsing-record-dot"></span>
-                    <span>Transcribing speech in real-time... Speak now</span>
+                    <span>{interimSpeech ? `Heard: "${interimSpeech}"` : 'Transcribing speech in real-time... Speak now'}</span>
                 </div>
             )}
         </footer>
