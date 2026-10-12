@@ -244,7 +244,7 @@ class WebSearchService:
     def _search_wikipedia(self, query):
         response = self.session.get(WIKI_API, params={
             'action': 'query', 'list': 'search', 'srsearch': query,
-            'srlimit': 3, 'format': 'json'
+            'srlimit': 5, 'format': 'json'
         }, timeout=self.timeout)
         response.raise_for_status()
         hits = response.json().get('query', {}).get('search', [])

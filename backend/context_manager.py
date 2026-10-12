@@ -91,10 +91,11 @@ class ContextManager:
         'breathing_exercise': 'Help me relax',
     }
     
-    def __init__(self, max_history=10):
-        """Initialize context manager with max history per session."""
+    def __init__(self, max_history=10, max_sessions=500):
+        """Initialize context manager with max history per session and max sessions cache."""
         self.sessions = defaultdict(list)
         self.max_history = max_history
+        self.max_sessions = max_sessions
     
     def add_message(self, session_id, role, text, intent=None, sentiment=None):
         """
@@ -107,6 +108,11 @@ class ContextManager:
             intent: Predicted intent (for bot messages)
             sentiment: Sentiment analysis result (for user messages)
         """
+        # Evict oldest session if memory capacity is exceeded
+        if len(self.sessions) >= self.max_sessions and session_id not in self.sessions:
+            oldest_key = next(iter(self.sessions))
+            del self.sessions[oldest_key]
+
         message = {
             'role': role,
             'text': text,

@@ -105,6 +105,8 @@ gc.collect()
 
 def build_web_prediction(web_result):
     """Turn a web search result into the same shape as a model prediction."""
+    title = web_result.get('title', '')
+    title_short = title if len(title) <= 28 else title[:25].rsplit(' ', 1)[0] + '…'
     return {
         'intent': 'web_search',
         'response': (
@@ -112,7 +114,7 @@ def build_web_prediction(web_result):
             f"{web_result['answer']}"
         ),
         'confidence': None,
-        'suggestions': [f"More about {web_result['title']}", 'Fun space facts', 'Solar system facts'],
+        'suggestions': [f"More about {title_short}", 'Fun space facts', 'Solar system facts'],
         'top_predictions': [],
         'is_fallback': False,
         'sources': [{'title': web_result['title'], 'url': web_result['url'], 'provider': web_result['provider']}]

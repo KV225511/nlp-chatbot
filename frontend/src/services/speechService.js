@@ -46,8 +46,6 @@ class SpeechService {
             recognition.maxAlternatives = 1;
             recognition.lang = this.getLangCode(langCode);
 
-            let hasResult = false;
-
             recognition.onresult = (event) => {
                 let interim = '';
                 let final = '';
@@ -62,7 +60,6 @@ class SpeechService {
                 }
 
                 if (final) {
-                    hasResult = true;
                     callbacks?.onFinal?.(final.trim());
                 } else if (interim) {
                     callbacks?.onInterim?.(interim.trim());
