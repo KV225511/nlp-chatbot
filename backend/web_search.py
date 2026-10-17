@@ -117,7 +117,8 @@ AMBIGUOUS_KEYWORDS = {
 # (so "Space Jam" is refused but "Interstellar (film)" style pages need a strong space word).
 MEDIA_WORDS = re.compile(
     r"\b(film|movie|video game|album|song|band|television|tv series|sitcom|novel|newspaper|"
-    r"magazine|anime|comic|musician|singer|actor|actress|footballer|cricketer)\b"
+    r"magazine|anime|comic|musician|singer|actor|actress|footballer|cricketer|"
+    r"businessman|entrepreneur|industrialist|politician|banker|investor)\b"
 )
 
 
@@ -130,7 +131,7 @@ def is_space_topic(title, description, extract):
     headline = set(_KEYWORD_PATTERN.findall(f"{title} {description}".lower()))
     if headline - AMBIGUOUS_KEYWORDS:
         return True
-    if MEDIA_WORDS.search(f"{description}".lower()):
+    if MEDIA_WORDS.search(f"{description} {(extract or '')[:160]}".lower()):
         return False
     everything = headline | set(_KEYWORD_PATTERN.findall((extract or '').lower()))
     return len(everything) >= 2
@@ -228,6 +229,10 @@ class WebSearchService:
                     return result
                 elif result and result.get('off_topic'):
                     found_off_topic = True
+                    # If Wikipedia explicitly confirmed this entity exists and is off-topic,
+                    # do not let backup DDG override with incidental mentions in text
+                    if provider == self._search_wikipedia:
+                        break
 
         # If the user explicitly asked about space, NEVER classify as off-topic!
         # Returning None allows CosmosBot to use its space fallback instead of refusing.
